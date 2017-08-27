@@ -1,12 +1,17 @@
-<view class="container">  
-  <view class="weui-grids">  
-    <view class="weui-grid" wx:for="{{books}}" wx:key="name">  
-      <navigator url="{{item.url}}">  
-        <view class="weui-grid__icon">  
-          <image src=" {{item.icon}}" mode="scaleToFill" />  
-        </view>  
-        <text class="weui-grid__label">{{item.name}}</text>  
-      </navigator>  
-    </view>  
-  </view>  
-</view>  
+<view class="container">
+    <view class="weui-grids">
+        <view wx:if="{{books.length==0}}">
+            <view class="center gray-color tips-size">还没有加入任何书籍,快去书城看看吧</view>
+        </view>
+        <view wx:else>
+            <view class="weui-grid" wx:for="{{books}}" id="{{index}}" bindlongtap="delete" wx:key="*key">
+                <navigator url="{{item.book_link}}">
+                    <view class="weui-grid__icon">
+                        <image src=" {{item.cover}}" mode="scaleToFill" />
+                    </view>
+                    <text class="weui-grid__label">{{item.book_name}}</text>
+                </navigator>
+            </view>
+        </view>
+    </view>
+</view>

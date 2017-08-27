@@ -1,0 +1,5 @@
+<view class="chapter" wx:for="{{chapters}}" id="{{index}}" wx:key="*key">
+    <navigator url="url"  hover-class="navigator" hover-stay-time="100">
+        <view >{{item.chapter_name}}</view>
+    </navigator>
+</view>

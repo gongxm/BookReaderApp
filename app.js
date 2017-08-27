@@ -72,6 +72,7 @@ App({
       wx.login({
         success: function (res) {//客户授权后通过code获取客户信息
           if (res.code) {
+              console.log(res.code)
             //获取thirdSession
             wx.request({
               url: wxlogin,

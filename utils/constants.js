@@ -7,10 +7,15 @@ var CONSTANTS = {
     LOGIN_FAIL: '登录失败',
     USER_INFO_ERROR:'获取用户信息失败',
 
+
+    //提示信息
+    DATA_NOT_FOUNT:'数据获取失败!',
+    LOADING:'正在加载数据...',
+
     
     //---------缓存信息---------
     STORAGE_USERINFO: 'userInfo',
-
+    STORAGE_BOOK_LIST:'book_list',
 
     //---------图片信息---------
     ORIGINAL_INFO: '&original=1',

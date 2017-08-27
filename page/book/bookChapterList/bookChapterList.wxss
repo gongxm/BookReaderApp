@@ -1,0 +1,15 @@
+/* bookChapterList.wxss */
+
+.chapter{
+    background-color: #fffff0;
+    size: 16px;
+    border: 1px #888 ridge;
+    padding: 5px;
+    margin: 3px
+}
+
+.navigator{
+    background-color: #eee;
+    color: blue;
+    font-weight: 500;
+}

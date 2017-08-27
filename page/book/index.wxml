@@ -1,5 +1,5 @@
 <view class="container">
-  <view bindtap="navigate" class="weui-panel-bd" wx:if="{{thirdSession != ''}}">
+  <view class="weui-panel-bd" wx:if="{{thirdSession != ''}}">
     <view class="weui-grids">
       <view class="weui-grid" wx:for="{{categories}}" wx:key="name">
         <navigator url="{{item.url}}">

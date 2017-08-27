@@ -1,0 +1,16 @@
+<!--bookDetail.wxml-->
+<view class="container">
+
+    <image src="{{book.cover}}" class="book-cover" />
+
+    <view class="book-title">{{book.book_name}}</view>
+    <view class="book-author">{{book.author}}</view>
+    <text class="book-shortIntroduce" decode="{{true}}">{{book.shortIntroduce}}</text>
+    <view id="{{index}}" class="weui-form-preview">
+        <view class="weui-form-preview-ft">
+            <view id="{{index}}" bindtap="addToBookCase" class="weui-form-preview-btn button-other" hover-class="weui-form-preview-btn-active" hover-stay-time="100" wx:if="{{exists==false}}">加入书架</view>
+            <view id="{{index}}" bindtap="removeFromBookCase" class="weui-form-preview-btn button-gray" hover-class="weui-form-preview-btn-active" hover-stay-time="100" wx:if="{{exists}}">移出书架</view>
+            <view id="{{index}}" bindtap="startRead" class="weui-form-preview-btn weui-form-preview-btn-primary" hover-class="weui-form-preview-btn-active" hover-stay-time="100">开始阅读</view>
+        </view>
+    </view>
+</view>
