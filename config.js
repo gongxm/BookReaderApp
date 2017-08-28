@@ -35,6 +35,8 @@ var config = {
   getBookDetail: `${host}/${service_name}/getBookDetail`,
   //获取书籍章节列表
   getChapterList: `${host}/${service_name}/getChapterList`,
+  //获取书籍章节内容
+  getBookChapter: `${host}/${service_name}/getBookChapter`,
 };
 
 module.exports = config

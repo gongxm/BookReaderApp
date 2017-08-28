@@ -1,10 +1,15 @@
 <view class="container">
   <view class="weui-panel-bd" wx:if="{{thirdSession != ''}}">
-    <view class="weui-grids">
-      <view class="weui-grid" wx:for="{{categories}}" wx:key="name">
-        <navigator url="{{item.url}}">
-          <text class="weui-grid__label">{{item.name}}</text>
-        </navigator>
+    <view wx:if="{{categories.length==0}}">
+      <view class="center gray-color tips-size">没有数据,请重试!</view>
+    </view>
+    <view wx:else>
+      <view class="weui-grids">
+        <view class="weui-grid" wx:for="{{categories}}" wx:key="name">
+          <navigator url="{{item.url}}">
+            <text class="weui-grid__label">{{item.name}}</text>
+          </navigator>
+        </view>
       </view>
     </view>
   </view>

@@ -87,7 +87,8 @@ Page({
                 'content-type': 'application/json'
             },
             success: function (res) {
-                var list = res.data
+              if(res.data.errcode==1){
+                var list = res.data.result
                 if (list && list.length > 0) {
 
                     var categories = []
@@ -101,6 +102,7 @@ Page({
                     }
                     self.setData({ categories: categories })
                 }
+              }
             },
             fail: function (res) {
                 wx.showToast({
