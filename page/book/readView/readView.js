@@ -65,6 +65,9 @@ Page({
     wx.setNavigationBarTitle({
       title: self.data.chapter_name
     })
+
+    console.log(self.data.position)
+
     wx.request({
       url: getBookChapter,
       data: {
@@ -88,6 +91,7 @@ Page({
         if (wx.hideLoading) {
           wx.hideLoading()
         }
+        console.log('加载完成......')
         wx.stopPullDownRefresh()
         isLoading = false
       }
@@ -144,8 +148,8 @@ Page({
   //下一章
   nextChapter: function () { 
     var self = this
-    var position = self.data.position
-    position = position + 1
+    var position = parseInt(self.data.position) +1
+
 
     //获取到列表
     wx.getStorage({

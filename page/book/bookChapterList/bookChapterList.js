@@ -71,6 +71,18 @@ Page({
     })
   },
 
+
+  //跳转到内容页面
+  navigateToBook:function(e){
+      var self = this
+      var index = e.currentTarget.id
+      var chapters = self.data.chapters
+      var chapter = chapters[index]
+      wx.redirectTo({
+          url: '../readView/readView?chapterid=' + chapter.id + '&chapter_name=' + chapter.chapter_name + '&bookid=' + self.data.bookid + '&position=' + chapter.position,
+      })
+  },
+
   /**
    * 生命周期函数--监听页面隐藏
    */

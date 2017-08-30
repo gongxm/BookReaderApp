@@ -64,9 +64,6 @@ Page({
                 title: category
             })
 
-          wx.showToast({
-            title: constants.LOADING,
-          })
             wx.request({
                 url: getCategoryList,
                 data: {
@@ -105,9 +102,6 @@ Page({
                 complete() {
                     wx.stopPullDownRefresh()
                     isLoading = false
-                    if(wx.hideLoading){
-                      wx.hideLoading()
-                    }
                 }
             })
         }

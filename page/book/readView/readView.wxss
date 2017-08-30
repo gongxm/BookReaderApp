@@ -37,3 +37,9 @@
 .bottom{
   height: 20px;
 }
+
+.content{
+    size: 14px;
+    font-weight: bold;
+    color: #6600FF;
+}

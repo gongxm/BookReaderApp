@@ -1,7 +1,5 @@
 <view class="container">
-  <view class="content">
-    {{content}}
-  </view>
+  <text decode="{{true}}"> {{content}}</text>
   <view class="control">
     <button type="primary" bindtap="preChapter">上一章</button>
     <button type="warn" bindtap="navigateToList">目录</button>
