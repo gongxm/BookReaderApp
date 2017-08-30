@@ -1,7 +1,6 @@
 // categoryList.js
 const getCategoryList = require('../../../config').getCategoryList
 const getImageUrl = require('../../../config').getImage
-
 const constants = require('../../../utils/constants')
 var app = getApp()
 
@@ -36,6 +35,7 @@ Page({
      * 生命周期函数--监听页面初次渲染完成
      */
     onReady: function () {
+        this.loadData()
 
     },
 
@@ -43,7 +43,6 @@ Page({
      * 生命周期函数--监听页面显示
      */
     onShow: function () {
-        this.loadData()
 
     },
 
@@ -65,6 +64,9 @@ Page({
                 title: category
             })
 
+          wx.showToast({
+            title: constants.LOADING,
+          })
             wx.request({
                 url: getCategoryList,
                 data: {
@@ -103,6 +105,9 @@ Page({
                 complete() {
                     wx.stopPullDownRefresh()
                     isLoading = false
+                    if(wx.hideLoading){
+                      wx.hideLoading()
+                    }
                 }
             })
         }

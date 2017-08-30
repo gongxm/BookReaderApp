@@ -226,7 +226,7 @@ Page({
         var self = this;
         var book = self.data.book;
         wx.navigateTo({
-            url: '../bookChapterList/bookChapterList?id=' + book.id,
+            url: '../bookChapterList/bookChapterList?bookid=' + book.id,
         })
     },
     /**

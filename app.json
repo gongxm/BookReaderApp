@@ -1,11 +1,11 @@
 {
   "pages": [
-    "page/book/readView/readView",
     "page/home/index",
-    "page/book/bookChapterList/bookChapterList",
     "page/book/index",
     "page/user/index",
+    "page/book/bookChapterList/bookChapterList",
     "page/book/categoryList/categoryList",
+    "page/book/readView/readView",
     "page/book/bookDetail/bookDetail"
   ],
   "window": {
