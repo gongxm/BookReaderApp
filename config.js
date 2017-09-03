@@ -15,28 +15,28 @@ var service_name = "BookReaderServer"
 var config = {
 
   // 用code换取openId
-  openIdUrl: `${host}/${service_name}/openid`,
+  openIdUrl: `${host}/${service_name}/action/openid`,
 
   //获取thirdSession
-  wxlogin: `${host}/${service_name}/wxlogin`,
+  wxlogin: `${host}/${service_name}/action/wxlogin`,
 
   //获取用户信息
-  getUserInfo: `${host}/${service_name}/getUserInfo`,
+  getUserInfo: `${host}/${service_name}/action/getUserInfo`,
 
   //获取书籍分类
-  getBookCategory: `${host}/${service_name}/getBookCategory`,
+  getBookCategory: `${host}/${service_name}/action/getBookCategory`,
 
   //获取书籍分类列表
-  getCategoryList: `${host}/${service_name}/getCategoryList`,
+  getCategoryList: `${host}/${service_name}/action/getCategoryList`,
 
   //获取书籍封面
   getImage: `${host}/${service_name}/getImage?cover=`,
   //获取书籍详细信息
-  getBookDetail: `${host}/${service_name}/getBookDetail`,
+  getBookDetail: `${host}/${service_name}/action/getBookDetail`,
   //获取书籍章节列表
-  getChapterList: `${host}/${service_name}/getChapterList`,
+  getChapterList: `${host}/${service_name}/action/getChapterList`,
   //获取书籍章节内容
-  getBookChapter: `${host}/${service_name}/getBookChapter`,
+  getBookChapter: `${host}/${service_name}/action/getBookChapter`,
 };
 
 module.exports = config
