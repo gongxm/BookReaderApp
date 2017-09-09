@@ -10,29 +10,16 @@ var CONSTANTS = {
 
     //提示信息
     DATA_NOT_FOUNT:'数据获取失败!',
-    LOADING:'正在加载数据...',
+    LOADING:'正在加载...',
 
     
     //---------缓存信息---------
     STORAGE_USERINFO: 'userInfo',
     STORAGE_BOOK_LIST:'book_list',
 
-    //---------图片信息---------
-    ORIGINAL_INFO: '&original=1',
-    UPLOADFILE_DIALOG_TITLE: '提示...',
-    UPLOADFILE_LOADING: '上传中...',
-    UPLOADFILE_SUCCESS: '上传成功',
-    UPLOADFILE_FAIL: '上传失败',
-    UPLOADFILE_TECHNICIANLOGO_FAIL: '头像设置失败',
-    UPLOADFILE_DIALOG_FAIL_CONTENT: '图片上传失败,请重试',
-
-    //---------单位信息---------
-    EN_RICE_INFO: 'm',
-    CN_RICE_INFO: '米',
-    EN_KILOMETRE_INFO: 'km',
-    CN_KILOMETRE_INFO: '公里',
-    EN_RMB_INFO: '¥',
-    CN_RMB_INFO: '元'
+    //----------分类列表类型----------
+    CATEGORY_TYPE_NORMAL:'1',
+    CATEGORY_TYPE_SEARCH:'2'
 
 }
 

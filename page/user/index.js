@@ -17,10 +17,7 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    this.setData({
-      thirdSession: app.globalData.userInfo.thirdSession,
-      userInfo: app.globalData.userInfo
-    })
+    
   },
 
   /**
@@ -34,43 +31,23 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-
+    this.setData({
+      thirdSession: app.globalData.userInfo.thirdSession,
+      userInfo: app.globalData.userInfo
+    })
   },
 
-  /**
-   * 生命周期函数--监听页面隐藏
-   */
-  onHide: function () {
-
-  },
-
-  /**
-   * 生命周期函数--监听页面卸载
-   */
-  onUnload: function () {
-
-  },
 
   /**
    * 页面相关事件处理函数--监听用户下拉动作
    */
   onPullDownRefresh: function () {
-
+    this.setData({
+      thirdSession: app.globalData.userInfo.thirdSession,
+      userInfo: app.globalData.userInfo
+    })
   },
 
-  /**
-   * 页面上拉触底事件的处理函数
-   */
-  onReachBottom: function () {
-
-  },
-
-  /**
-   * 用户点击右上角分享
-   */
-  onShareAppMessage: function () {
-
-  },
 
   /**
   * 打开小程序设置界面
@@ -84,7 +61,7 @@ Page({
             success: (res) => {
               var authSetting = res.authSetting
               if (res.authSetting['scope.userInfo']) {
-                console.log("success userInfo")
+                app.login(self)
               }
             }
           })
@@ -97,5 +74,15 @@ Page({
         console.log("complete userInfo")
       }
     })
+  },
+
+  /**
+ * 下拉刷新
+ */
+  onPullDownRefresh: function () {
+   if(wx.hideLoading){
+     wx.hideLoading()
+   }
+   wx.stopPullDownRefresh()
   },
 })

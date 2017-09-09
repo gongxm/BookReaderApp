@@ -49,14 +49,14 @@ App({
           self.globalData.userInfo.country = res.data.country
           self.globalData.userInfo.avatarUrl = res.data.avatarUrl
 
-         // console.log(self.globalData.userInfo)
+          // console.log(self.globalData.userInfo)
         } else {
-          self.login();
+          self.login(null);
         }
 
       },
       fail: function (res) {//未登录，引导登录
-        self.login()
+        self.login(null)
       }
     })
   },
@@ -64,15 +64,19 @@ App({
   /**
    * 检测是否登录过，登录过则取缓存信息，没有则引导登录
    */
-  login: function () {
+  login: function (page) {
 
     var self = this
     if (!isLogin) {
       isLogin = true
+      wx.showLoading({
+        title: '正在登陆...',
+        mask:true
+      })
+
       wx.login({
         success: function (res) {//客户授权后通过code获取客户信息
           if (res.code) {
-              console.log(res.code)
             //获取thirdSession
             wx.request({
               url: wxlogin,
@@ -87,7 +91,7 @@ App({
                 if (res.data.errcode == 1) {
                   var thirdSession = res.data.thirdSession
                   //获取用户信息
-                  self.saveUserInfo(thirdSession);
+                  self.saveUserInfo(thirdSession, page);
                 } else {
                   wx.showToast({
                     title: constants.LOGIN_FAIL,
@@ -106,6 +110,11 @@ App({
             })
           }
 
+        },
+        fail:(res)=>{
+          if(wx.hideLoading){
+            wx.hideLoading()
+          }
         }
       });
     }
@@ -114,7 +123,7 @@ App({
   /**
    * 请求微信个人信息接口,上传用户信息到服务器
    */
-  saveUserInfo: function (thirdSession) {
+  saveUserInfo: function (thirdSession, page) {
     var self = this
 
     wx.getUserInfo({
@@ -133,31 +142,45 @@ App({
           },
           success: function (res) {
             if (res.data.errcode == 1) {
-              self.getUserInfo(thirdSession);
+              self.getUserInfo(thirdSession, page);
             } else {
               wx.showToast({
                 title: constants.USER_INFO_ERROR,
-                icon: 'success',
+                image: 'images/error.png',
                 duration: 2000
               })
             }
           },
+          fail:(res)=>{
+            if (wx.hideLoading) {
+              wx.hideLoading()
+            }
+          },
           complete: function () {
             isLogin = false
+            if (wx.hideLoading) {
+              wx.hideLoading()
+            }
           }
         })
       },
       fail: function (res) {
-
+        if (wx.hideLoading) {
+          wx.hideLoading()
+        }
       },
       complete: function () {
+        isLogin = false
+        if (wx.hideLoading) {
+          wx.hideLoading()
+        }
       }
     })
   },
 
 
   //获取服务器上的用户信息
-  getUserInfo: function (thirdSession) {
+  getUserInfo: function (thirdSession, page) {
     var self = this
 
     wx.request({
@@ -187,20 +210,32 @@ App({
             key: constants.STORAGE_USERINFO,
             data: self.globalData.userInfo
           })
-        }else{
+
+          if (page!=null){
+            page.setData({
+              thirdSession: self.globalData.userInfo.thirdSession,
+              userInfo: self.globalData.userInfo
+            })
+          }
+        } else {
           wx.showToast({
             title: constants.USER_INFO_ERROR,
-            icon: 'success',
+            image: 'images/error.png',
             duration: 2000
           })
         }
       },
-      fail:function(res){
+      fail: function (res) {
         wx.showToast({
           title: constants.USER_INFO_ERROR,
-          icon: 'success',
+          image: 'images/error.png',
           duration: 2000
         })
+      },
+      complete:(res)=>{
+        if (wx.hideLoading) {
+          wx.hideLoading()
+        }
       }
     })
   }

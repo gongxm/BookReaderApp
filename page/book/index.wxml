@@ -1,4 +1,7 @@
 <view class="container">
+  <view>
+    <input class='search' value='{{inputValue}}' placeholder='输入书名或作者名' type='text' maxlength='30' confirm-type='search' confirm-hold='false' bindconfirm='search'></input>
+  </view>
   <view class="weui-panel-bd" wx:if="{{thirdSession != ''}}">
     <view wx:if="{{categories.length==0}}">
       <view class="center gray-color tips-size">没有数据,请重试!</view>

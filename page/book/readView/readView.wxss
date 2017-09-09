@@ -15,11 +15,6 @@
   font-size: 14px;
 }
 
-.button{
-  height: 40px;
-  text-align: center;
-}
-
 .control {
   display: -webkit-flex; /* Safari */
   display: flex;
@@ -30,16 +25,45 @@
   margin: 10px;
 }
 
-.container{
+.container {
   margin: 10px;
 }
 
-.bottom{
+.bottom {
   height: 20px;
 }
 
-.content{
-    size: 14px;
-    font-weight: bold;
-    color: #6600FF;
+.content {
+  size: 14px;
+  color: #000;
+  white-space: pre-wrap;
+  word-break: break-all;
+}
+
+.next {
+  border-radius: 0px;
+  border-top-right-radius: 50px;
+  border-bottom-right-radius: 50px;
+}
+
+.pre{
+  border-radius: 0px;
+  border-top-left-radius: 50px;
+  border-bottom-left-radius: 50px;
+}
+
+.button {
+  margin: 5px 10px 5px 10px;
+  color: #ff8719;
+  height: 40px;
+  width: 80px;
+  border: 1px #ff8719 double;
+  text-align: center;
+  font-size: 14px;
+  font-family: "微软雅黑";
+}
+
+.button_hover{
+  background: #000019;
+  opacity: 0.5;
 }

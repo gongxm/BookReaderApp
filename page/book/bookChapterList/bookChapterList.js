@@ -9,7 +9,7 @@ Page({
    * 页面的初始数据
    */
   data: {
-    bookid:'',
+    bookid: '',
     chapters: []
   },
 
@@ -18,8 +18,33 @@ Page({
    */
   onLoad: function (options) {
     var self = this
-    self.setData({ bookid: options.bookid})
-    this.loadData()
+    var bookid = options.bookid
+    self.setData({ bookid: bookid })
+
+    wx.showLoading({
+      title: constants.LOADING,
+      mask: true
+    })
+    //获取到列表
+    wx.getStorage({
+      key: bookid,
+      success: function (res) {
+        var list = res.data
+        if (list && list.length > 0) {
+          self.setData({ chapters: list })
+        } else {
+          self.loadData()
+        }
+      },
+      fail: (res) => {
+        self.loadData()
+      },
+      complete: (res) => {
+          if (wx.hideLoading) {
+            wx.hideLoading()
+          }
+      }
+    })
   },
 
   /**
@@ -39,8 +64,9 @@ Page({
   //加载数据
   loadData: function () {
     var self = this
-    wx.showToast({
+    wx.showLoading({
       title: constants.LOADING,
+      mask: true
     })
     wx.request({
       url: getChapterList,
@@ -73,48 +99,23 @@ Page({
 
 
   //跳转到内容页面
-  navigateToBook:function(e){
-      var self = this
-      var index = e.currentTarget.id
-      var chapters = self.data.chapters
-      var chapter = chapters[index]
-      wx.redirectTo({
-          url: '../readView/readView?chapterid=' + chapter.id + '&chapter_name=' + chapter.chapter_name + '&bookid=' + self.data.bookid + '&position=' + chapter.position,
-      })
+  navigateToBook: function (e) {
+    var self = this
+    var index = e.currentTarget.id
+    var chapters = self.data.chapters
+    var chapter = chapters[index]
+    wx.redirectTo({
+      url: '../readView/readView?chapterid=' + chapter.id + '&chapter_name=' + chapter.chapter_name + '&bookid=' + self.data.bookid + '&position=' + chapter.position,
+    })
   },
 
-  /**
-   * 生命周期函数--监听页面隐藏
-   */
-  onHide: function () {
-
-  },
-
-  /**
-   * 生命周期函数--监听页面卸载
-   */
-  onUnload: function () {
-
-  },
 
   /**
    * 页面相关事件处理函数--监听用户下拉动作
    */
   onPullDownRefresh: function () {
     this.loadData()
-  },
-
-  /**
-   * 页面上拉触底事件的处理函数
-   */
-  onReachBottom: function () {
-
-  },
-
-  /**
-   * 用户点击右上角分享
-   */
-  onShareAppMessage: function () {
-
   }
+
+
 })

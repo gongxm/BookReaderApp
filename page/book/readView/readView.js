@@ -54,19 +54,19 @@ Page({
     if(isLoading){
       return
     }
-
     isLoading = true
-
     var self = this
-    wx.showToast({
+
+    self.setData({ content: '' })
+
+    wx.showLoading({
       title: constants.LOADING,
+      mask: true
     })
     //设置标题栏
     wx.setNavigationBarTitle({
       title: self.data.chapter_name
     })
-
-    console.log(self.data.position)
 
     wx.request({
       url: getBookChapter,
@@ -81,17 +81,12 @@ Page({
         if (res.data.errcode == 1) {
           var content = res.data.result 
           self.setData({ content: content})
-          //回到顶部
-          wx.pageScrollTo({
-            scrollTop: 0
-          })
         }
       },
       complete: function () {
         if (wx.hideLoading) {
           wx.hideLoading()
         }
-        console.log('加载完成......')
         wx.stopPullDownRefresh()
         isLoading = false
       }
@@ -106,7 +101,7 @@ Page({
 
     if (position == 0) {
       wx.showToast({
-        title: '已经是第一章了!',
+        title: '第一章了!',
       })
 
       return;
@@ -159,7 +154,7 @@ Page({
         if (list && list.length > 0) {
           if (position >= list.length) {
             wx.showToast({
-              title: '已经是最后一章了!',
+              title: '最后一章了!',
             })
             return;
           }
@@ -178,38 +173,11 @@ Page({
       },
     })
   },
-  /**
-   * 生命周期函数--监听页面隐藏
-   */
-  onHide: function () {
-
-  },
-
-  /**
-   * 生命周期函数--监听页面卸载
-   */
-  onUnload: function () {
-
-  },
 
   /**
    * 页面相关事件处理函数--监听用户下拉动作
    */
   onPullDownRefresh: function () {
     this.loadData()
-  },
-
-  /**
-   * 页面上拉触底事件的处理函数
-   */
-  onReachBottom: function () {
-
-  },
-
-  /**
-   * 用户点击右上角分享
-   */
-  onShareAppMessage: function () {
-
   }
 })
