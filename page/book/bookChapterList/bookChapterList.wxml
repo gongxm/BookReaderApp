@@ -1,5 +1,9 @@
-<view class="chapter" bindtap="navigateToBook" wx:for="{{chapters}}" id="{{index}}" wx:key="*key">
-    <navigator url=""  hover-class="navigator" hover-stay-time="100">
-        <view >{{item.chapter_name}}</view>
-    </navigator>
+<view class='loading' wx:if='{{loading}}'>
+  <image src='../../../images/loading.gif'></image>
+</view>
+
+<view wx:else>
+  <view class="chapter" hover-class="navigator" hover-stay-time="100" bindtap="navigateToBook" wx:for="{{chapters}}" id="{{index}}" wx:key="*key">
+    <view>{{item.chapter_name}}</view>
+  </view>
 </view>

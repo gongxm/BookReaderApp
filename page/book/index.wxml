@@ -1,4 +1,7 @@
-<view class="container">
+<view class='loading' wx:if='{{loading}}'><image src='../../images/loading.gif'></image></view>
+
+
+<view class="container" wx:else>
   <view>
     <input class='search' value='{{inputValue}}' placeholder='输入书名或作者名' type='text' maxlength='30' confirm-type='search' confirm-hold='false' bindconfirm='search'></input>
   </view>

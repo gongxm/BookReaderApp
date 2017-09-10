@@ -3,14 +3,18 @@ const getChapterList = require('../../../config').getChapterList
 const constants = require('../../../utils/constants')
 var app = getApp()
 
+var isload = false
+
 Page({
 
   /**
    * 页面的初始数据
    */
   data: {
+    loading: false,
     bookid: '',
-    chapters: []
+    chapters: [],
+    book_name: ''
   },
 
   /**
@@ -19,19 +23,16 @@ Page({
   onLoad: function (options) {
     var self = this
     var bookid = options.bookid
-    self.setData({ bookid: bookid })
-
-    wx.showLoading({
-      title: constants.LOADING,
-      mask: true
-    })
+    var book_name = options.book_name
+    self.setData({ loading: true, bookid: bookid, book_name: book_name })
     //获取到列表
     wx.getStorage({
       key: bookid,
       success: function (res) {
         var list = res.data
         if (list && list.length > 0) {
-          self.setData({ chapters: list })
+          self.setData({ loading: false, chapters: list })
+          // self.setData({ chapters: list })
         } else {
           self.loadData()
         }
@@ -40,9 +41,7 @@ Page({
         self.loadData()
       },
       complete: (res) => {
-          if (wx.hideLoading) {
-            wx.hideLoading()
-          }
+
       }
     })
   },
@@ -63,11 +62,14 @@ Page({
 
   //加载数据
   loadData: function () {
+    if (isload){
+      return
+    }
+
+    isload = true
+
     var self = this
-    wx.showLoading({
-      title: constants.LOADING,
-      mask: true
-    })
+    self.setData({ loading: true })
     wx.request({
       url: getChapterList,
       data: {
@@ -80,19 +82,21 @@ Page({
       success: function (res) {
         if (res.data.errcode == 1) {
           var chapters = res.data.result
-          self.setData({ chapters: chapters })
+          self.setData({ chapters: chapters, loading: false})
           //存储数据
           wx.setStorage({
             key: self.data.bookid,
             data: chapters,
           })
+
         }
+      },
+      fail:function(res){
+        self.setData({ loading: false })
       },
       complete: function () {
         wx.stopPullDownRefresh()
-        if (wx.hideLoading) {
-          wx.hideLoading()
-        }
+        isload = false;
       }
     })
   },
@@ -105,7 +109,7 @@ Page({
     var chapters = self.data.chapters
     var chapter = chapters[index]
     wx.redirectTo({
-      url: '../readView/readView?chapterid=' + chapter.id + '&chapter_name=' + chapter.chapter_name + '&bookid=' + self.data.bookid + '&position=' + chapter.position,
+      url: '../readView/readView?chapterid=' + chapter.id + '&chapter_name=' + chapter.chapter_name + '&bookid=' + self.data.bookid + '&position=' + chapter.position + '&book_name=' + self.data.book_name,
     })
   },
 

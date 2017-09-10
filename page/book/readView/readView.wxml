@@ -1,4 +1,8 @@
 <view class="container">
+  <view class='top'>
+    <view bindtap='go_home'>首页 </view> > 
+    <view bindtap='navigateToList'> {{book_name}}</view>
+  </view>
   <view wx:if="{{content}}">
     <view class='content'> {{content}}</view>
     <view class="control">

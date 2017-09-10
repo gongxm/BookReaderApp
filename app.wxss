@@ -36,3 +36,10 @@ page{
     text-align: left;
     font-size: 14rpx;
 }
+
+.loading{
+  background: #fff;
+  padding-top: 150px;
+  text-align: center;
+  height: 100%;
+}

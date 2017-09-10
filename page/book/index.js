@@ -7,6 +7,7 @@ Page({
    * 页面的初始数据
    */
   data: {
+    loading:false,
     thirdSession: '',
     categories: [],
     inputValue: ''
@@ -50,10 +51,8 @@ Page({
   //加载数据
   loadData: function () {
     var self = this
-    wx.showLoading({
-      title: constants.LOADING,
-      mask: true
-    })
+
+    self.setData({ loading:true})
 
     //请求服务器, 获取书籍分类
     wx.request({
@@ -79,7 +78,7 @@ Page({
               }
               categories.push(item)
             }
-            self.setData({ categories: categories })
+            self.setData({ categories: categories, loading:false })
           }
         }
       },
@@ -89,11 +88,9 @@ Page({
           icon: 'success',
           duration: 2000
         })
+        self.setData({ loading: false })
       },
       complete() {
-        if (wx.hideLoading) {
-          wx.hideLoading()
-        }
         wx.stopPullDownRefresh()
       }
     })

@@ -46,7 +46,7 @@
   border-bottom-right-radius: 50px;
 }
 
-.pre{
+.pre {
   border-radius: 0px;
   border-top-left-radius: 50px;
   border-bottom-left-radius: 50px;
@@ -63,7 +63,14 @@
   font-family: "微软雅黑";
 }
 
-.button_hover{
+.button_hover {
   background: #000019;
   opacity: 0.5;
+}
+
+.top {
+  color: blue;
+  display: -webkit-flex; /* Safari */
+  display: flex;
+  flex-direction: row;
 }

@@ -6,7 +6,8 @@ var app = getApp()
 
 Page({
   data: {
-    books: []
+    books: [],
+    animation: {}
   },
 
   /**
@@ -27,12 +28,11 @@ Page({
    * 界面显示时调用
    */
   onShow: function () {
-   this.loadData()
-
+    this.loadData()
   },
 
   //加载数据
-  loadData:function(){
+  loadData: function () {
     var self = this
     wx.getStorage({
       key: constants.STORAGE_BOOK_LIST,
@@ -42,7 +42,11 @@ Page({
           self.setData({ books: books })
         }
       },
-      complete:function(){
+
+      fail: function (res) {
+       
+      },
+      complete: function () {
         wx.stopPullDownRefresh()
       }
     })
@@ -91,6 +95,49 @@ Page({
         }
       }
     })
+  },
+
+  //点击阅读
+  readBook: function (e) {
+    var self = this
+    var index = e.currentTarget.id
+    var book = self.data.books[index]
+    var position = book.position
+    if (!position) {
+      position = 0
+    }
+
+    var bookid = String(book.id)
+
+    //获取到列表
+    wx.getStorage({
+      key: bookid,
+      success: function (res) {
+        var chapters = res.data
+        var chapter = chapters[0]
+        for (var i = 0; i < chapters.length; i++) {
+          if (chapters[i].position == position) {
+            chapter = chapters[i]
+            break;
+          }
+        }
+        wx.navigateTo({
+          url: '../book/readView/readView?chapterid=' + chapter.id + '&chapter_name=' + chapter.chapter_name + '&bookid=' + bookid + '&position=' + position + '&book_name=' + book.book_name,
+        })
+      },
+      fail: (res) => {
+        wx.navigateTo({
+          url: '../book/bookChapterList/bookChapterList?bookid=' + bookid + '&book_name=' + book.book_name,
+        })
+      },
+      complete: (res) => {
+        if (wx.hideLoading) {
+          wx.hideLoading()
+        }
+      }
+    })
+
+
   },
 
   /**

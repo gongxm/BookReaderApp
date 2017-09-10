@@ -12,7 +12,8 @@ Page({
     chapter_name: '',
     bookid: '',
     position: '',
-    content: ''
+    content: '',
+    book_name:''
   },
 
   /**
@@ -23,12 +24,14 @@ Page({
     var chapter_name = options.chapter_name
     var bookid = options.bookid
     var position = options.position
+    var book_name = options.book_name
 
     this.setData({
       chapterid: chapterid,
       chapter_name: chapter_name,
       bookid: bookid,
-      position: position
+      position: position,
+      book_name: book_name
     })
 
     this.loadData()
@@ -45,13 +48,13 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-   
+
   },
 
   //加载数据
   loadData: function () {
 
-    if(isLoading){
+    if (isLoading) {
       return
     }
     isLoading = true
@@ -79,8 +82,31 @@ Page({
       },
       success: function (res) {
         if (res.data.errcode == 1) {
-          var content = res.data.result 
-          self.setData({ content: content})
+          var content = res.data.result
+          self.setData({ content: content })
+
+          //把当前读取的章节信息记录到书籍中
+          wx.getStorage({
+            key: constants.STORAGE_BOOK_LIST,
+            success: function (res) {
+              var books = res.data
+              if (books) {
+                for (var i = 0; i < books.length; i++) {
+                  var book = books[i]
+                  if (book.id == self.data.bookid) {
+                    book.position = self.data.position
+                    break;
+                  }
+                }
+                //重新存储
+                wx.setStorage({
+                  key: constants.STORAGE_BOOK_LIST,
+                  data: books,
+                })
+              }
+            }
+          })
+
         }
       },
       complete: function () {
@@ -107,7 +133,7 @@ Page({
       return;
     }
 
-    position = position-1
+    position = position - 1
 
     //获取到列表
     wx.getStorage({
@@ -133,17 +159,16 @@ Page({
 
   //查看目录
   navigateToList: function () {
-    console.log('navigateToList')
     var self = this
-    wx.navigateTo({
-      url: '../bookChapterList/bookChapterList?bookid='+self.data.bookid,
+    wx.redirectTo({
+      url: '../bookChapterList/bookChapterList?bookid=' + self.data.bookid + '&book_name=' + self.data.book_name,
     })
-   },
+  },
 
   //下一章
-  nextChapter: function () { 
+  nextChapter: function () {
     var self = this
-    var position = parseInt(self.data.position) +1
+    var position = parseInt(self.data.position) + 1
 
 
     //获取到列表
@@ -171,6 +196,12 @@ Page({
           }
         }
       },
+    })
+  },
+  //回到书架
+  go_home:function(e){
+    wx.reLaunch({
+      url: '../../home/index',
     })
   },
 
