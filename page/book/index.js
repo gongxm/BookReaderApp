@@ -125,6 +125,21 @@ Page({
     })
   },
 
+//跳转到列表
+  navigatoList:function(e){
+    var self = this
+    var index = e.currentTarget.id
+
+    var category = self.data.categories[index]
+
+    if(category){
+      wx.navigateTo({
+        url: category.url,
+      })
+    }
+
+  },
+
   //搜索
   search: function (e) {
     var self = this

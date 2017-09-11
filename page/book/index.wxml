@@ -1,4 +1,6 @@
-<view class='loading' wx:if='{{loading}}'><image src='../../images/loading.gif'></image></view>
+<view class='loading' wx:if='{{loading}}'>
+  <image src='../../images/loading.gif'></image>
+</view>
 
 
 <view class="container" wx:else>
@@ -11,10 +13,8 @@
     </view>
     <view wx:else>
       <view class="weui-grids">
-        <view class="weui-grid" wx:for="{{categories}}" wx:key="name">
-          <navigator url="{{item.url}}">
-            <text class="weui-grid__label">{{item.name}}</text>
-          </navigator>
+        <view class="weui-grid" bindtap='navigatoList' id='{{index}}' wx:for="{{categories}}" wx:key="name">
+          {{item.name}}
         </view>
       </view>
     </view>
