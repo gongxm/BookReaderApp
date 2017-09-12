@@ -5,8 +5,8 @@
     "page/user/index",
     "page/book/bookChapterList/bookChapterList",
     "page/book/categoryList/categoryList",
-    "page/book/readView/readView",
-    "page/book/bookDetail/bookDetail"
+    "page/book/bookDetail/bookDetail",
+    "page/book/readView/readView"
   ],
   "window": {
     "navigationBarTextStyle": "white",

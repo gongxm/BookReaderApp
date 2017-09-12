@@ -6,9 +6,9 @@
   <view wx:if="{{content}}">
     <view class='content'> {{content}}</view>
     <view class="control">
-      <button class='button pre' bindtap="preChapter" hover-class='button_hover' hover-stay-time='100'>上一章</button>
-      <button class='button' bindtap="navigateToList" hover-class='button_hover' hover-stay-time='100'>目录</button>
-      <button class='button next' bindtap="nextChapter" hover-class='button_hover' hover-stay-time='100'>下一章</button>
+      <view class='button pre' bindtap="preChapter" hover-class='button_hover' hover-stay-time='100'>上一章</view>
+      <view class='button' bindtap="navigateToList" hover-class='button_hover' hover-stay-time='100'>目录</view>
+      <view class='button next' bindtap="nextChapter" hover-class='button_hover' hover-stay-time='100'>下一章</view>
     </view>
   </view>
   <view wx:else>
