@@ -4,7 +4,7 @@
       <view bindtap="navigate" class="weui-panel-bd" wx:if="{{thirdSession != ''}}">
         <view class="weui-media-box weui-media-box-appmsg" hover-class="weui-cell-active">
           <view class="weui-media-box-hd weui-media-box-hd-in-appmsg">
-            <image class="weui-media-box-thumb" src="{{userInfo.avatarUrl}}" mode="aspectFill" />
+            <image class="weui-media-box-thumb user-cover" src="{{userInfo.avatarUrl}}" mode="aspectFill" />
           </view>
 
           <view class="weui-media-box-bd weui-media-box-bd-in-appmsg">

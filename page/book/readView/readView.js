@@ -8,12 +8,13 @@ Page({
    * 页面的初始数据
    */
   data: {
+    loading: false,
     chapterid: '',
     chapter_name: '',
     bookid: '',
     position: '',
     content: '',
-    book_name:''
+    book_name: ''
   },
 
   /**
@@ -60,7 +61,7 @@ Page({
     isLoading = true
     var self = this
 
-    self.setData({ content: '' })
+    self.setData({ loading: true, content: '' })
 
     wx.showLoading({
       title: constants.LOADING,
@@ -83,7 +84,7 @@ Page({
       success: function (res) {
         if (res.data.errcode == 1) {
           var content = res.data.result
-          self.setData({ content: content })
+          self.setData({ loading: false, content: content })
 
           //把当前读取的章节信息记录到书籍中
           wx.getStorage({
@@ -107,7 +108,16 @@ Page({
             }
           })
 
+        } else {
+          self.setData({
+            loading: false
+          })
         }
+      },
+      fail: function (res) {
+        self.setData({
+          loading: false
+        })
       },
       complete: function () {
         if (wx.hideLoading) {
@@ -199,7 +209,7 @@ Page({
     })
   },
   //回到书架
-  go_home:function(e){
+  go_home: function (e) {
     wx.reLaunch({
       url: '../../home/index',
     })

@@ -1,22 +1,22 @@
 <view class='loading' wx:if='{{loading}}'>
-  <image src='../../images/loading.gif'></image>
+  <image src='../../images/loading.gif' mode='aspectFit'></image>
 </view>
 
 
 <view class="container" wx:else>
   <view>
-    <input class='search' value='{{inputValue}}' placeholder='输入书名或作者名' type='text' maxlength='30' confirm-type='search' confirm-hold='false' bindconfirm='search'></input>
+    <input class='search' value='{{inputValue}}' placeholder='搜索: 输入书名或作者名' type='text' maxlength='30' confirm-type='search' confirm-hold='false' bindconfirm='search'></input>
   </view>
   <view class="weui-panel-bd" wx:if="{{thirdSession != ''}}">
     <view wx:if="{{categories.length==0}}">
       <view class="center gray-color tips-size">没有数据,请重试!</view>
     </view>
     <view wx:else>
-      <view class="weui-grids">
-        <view class="weui-grid" bindtap='navigatoList' id='{{index}}' wx:for="{{categories}}" wx:key="name">
-          {{item.name}}
-        </view>
+
+      <view class="mygrid" bindtap='navigatoList' id='{{index}}' wx:for="{{categories}}" wx:key="name">
+        <view class="button button-red" hover-class="weui-form-preview-btn-active" hover-stay-time="100">{{item.name}}</view>
       </view>
+
     </view>
   </view>
 

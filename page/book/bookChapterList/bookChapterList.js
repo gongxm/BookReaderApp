@@ -32,7 +32,6 @@ Page({
         var list = res.data
         if (list && list.length > 0) {
           self.setData({ loading: false, chapters: list })
-          // self.setData({ chapters: list })
         } else {
           self.loadData()
         }
@@ -89,6 +88,8 @@ Page({
             data: chapters,
           })
 
+        }else{
+          self.setData({ loading: false })
         }
       },
       fail:function(res){

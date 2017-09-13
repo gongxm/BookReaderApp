@@ -3,9 +3,9 @@
     "page/home/index",
     "page/book/index",
     "page/user/index",
-    "page/book/bookChapterList/bookChapterList",
     "page/book/categoryList/categoryList",
     "page/book/bookDetail/bookDetail",
+    "page/book/bookChapterList/bookChapterList",
     "page/book/readView/readView"
   ],
   "window": {

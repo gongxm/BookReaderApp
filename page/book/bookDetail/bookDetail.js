@@ -10,8 +10,9 @@ Page({
    * 页面的初始数据
    */
   data: {
+    loading:false,
     exists: false,
-    book: {}
+    book: ''
   },
 
   /**
@@ -44,6 +45,9 @@ Page({
       title: constants.LOADING,
       mask: true
     })
+
+    self.setData({ loading: true})
+
     wx.request({
       url: getBookDetail,
       data: {
@@ -59,7 +63,7 @@ Page({
           var reg2 = new RegExp("&nbsp;", "g");
           var book = res.data.result
           book.shortIntroduce = book.shortIntroduce.replace(reg, '\r\n').replace(reg2, ' ')
-          self.setData({ book: book })
+          self.setData({ loading: false,book: book })
 
           var exists = false;
           wx.getStorage({
@@ -80,7 +84,13 @@ Page({
               self.setData({ exists: exists })
             }
           })
+        }else{
+          self.setData({ loading: false })
         }
+      },
+
+      fail:function(res){
+        self.setData({ loading: false })
       },
       complete: function () {
         if (wx.hideLoading) {

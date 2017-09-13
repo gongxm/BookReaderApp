@@ -14,6 +14,7 @@ Page({
    * 页面的初始数据
    */
   data: {
+    loading: false,
     category: '',
     books: [],
     over: false,
@@ -30,7 +31,7 @@ Page({
     var keyword = options.keyword
     var self = this
     if (category && category != '') {
-      self.setData({ category: category, type: type, keyword: keyword })
+      self.setData({ loading: true, category: category, type: type, keyword: keyword })
     }
     currentPage = 1
     isLoading = false
@@ -98,15 +99,18 @@ Page({
                 var item = list[i]
                 books.push(item)
               }
-              self.setData({ books: books, over: list.length < pageSize })
+              self.setData({ loading: false, books: books, over: list.length < pageSize })
 
               //数据加载成功,当前页面自增
               currentPage++
             }
+          } else {
+            self.setData({ loading: false })
           }
         },
 
         fail: function (res) {
+          self.setData({ loading: false })
           wx.showToast({
             title: constants.DATA_NOT_FOUNT,
             icon: 'success',
@@ -135,7 +139,7 @@ Page({
    */
   onPullDownRefresh: function () {
     var self = this
-    self.setData({ over: false, books: [] })
+    self.setData({ loading: true, over: false, books: [] })
     currentPage = 1;
     this.loadData()
   },
@@ -196,15 +200,18 @@ Page({
                 var item = list[i]
                 books.push(item)
               }
-              self.setData({ books: books, over: list.length < pageSize })
+              self.setData({ loading: false, books: books, over: list.length < pageSize })
 
               //数据加载成功,当前页面自增
               currentPage++
             }
+          } else {
+            self.setData({ loading: false })
           }
         },
 
         fail: function (res) {
+          self.setData({ loading: false })
           wx.showToast({
             title: constants.DATA_NOT_FOUNT,
             icon: 'success',

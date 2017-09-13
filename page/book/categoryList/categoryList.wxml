@@ -1,33 +1,36 @@
 <!--categoryList.wxml-->
-<view class="weiui-list">
-    <view wx:if="{{category!=''}}">
+<view wx:if='{{loading}}'>
+  <view class="center gray-color tips-size">正在加载数据...</view>
+</view>
+<view class="weiui-list" wx:else>
+  <view wx:if="{{category!=''}}">
 
-        <view wx:if="{{books.length==0}}">
-            <view class="center">
-                <text class="tips">没有内容!</text>
-            </view>
-        </view>
-
-        <view wx:else>
-            <view wx:for="{{books}}" id="{{index}}" bindtap="navigateToBook" wx:key="*this">
-                <view class="weui-media-box weui-media-box-appmsg" style="border-bottom: 1rpx solid #E5E5E5;" hover-class="weui-cell-active">
-                    <view class="weui-media-box-hd weui-media-box-hd-in-appmsg">
-                        <image class="weui-media-box-thumb" style="border-radius: 60rpx;width: 120rpx;height: 120rpx;" src="{{item.cover}}" mode="aspectFill" />
-                    </view>
-                    <view class="weui-media-box-bd">
-                        <view class="book-title">{{item.book_name}}</view>
-                        <view class="book-author">{{item.author}}</view>
-                    </view>
-                </view>
-            </view>
-        </view>
-
+    <view wx:if="{{books.length==0}}">
+      <view class="center">
+        <text class="tips">没有内容!</text>
+      </view>
     </view>
 
     <view wx:else>
-        <view class="center">
-            <text class="tips">分类类型不正确!</text>
+      <view wx:for="{{books}}" id="{{index}}" bindtap="navigateToBook" wx:key="*this">
+        <view class="weui-media-box weui-media-box-appmsg" style="border-bottom: 1rpx solid #E5E5E5;" hover-class="weui-cell-active">
+          <view class="weui-media-box-hd weui-media-box-hd-in-appmsg">
+            <image class="weui-media-box-thumb" style="border-radius: 60rpx;width: 120rpx;height: 120rpx;" src="{{item.cover}}" mode="aspectFill" />
+          </view>
+          <view class="weui-media-box-bd">
+            <view class="book-title">{{item.book_name}}</view>
+            <view class="book-author">{{item.author}}</view>
+          </view>
         </view>
+      </view>
     </view>
-    <view class="center buttom-tips" wx:if="{{over}}">已经到底了</view>
+
+  </view>
+
+  <view wx:else>
+    <view class="center">
+      <text class="tips">分类类型不正确!</text>
+    </view>
+  </view>
+  <view class="center buttom-tips" wx:if="{{over}}">已经到底了</view>
 </view>

@@ -3,14 +3,11 @@
     <view class="center gray-color tips-size">还没有加入任何书籍,快去书城看看吧</view>
   </view>
   <view wx:else>
-    <view class="weui-grids">
-      <view class="weui-grid" wx:for="{{books}}" id="{{index}}" bindtap='readBook' bindlongtap="delete" wx:key="*key">
-        <!-- <navigator url="../book/bookDetail/bookDetail?id={{item.id}}" hover-stay-time="100"> -->
-        <view class="weui-grid__icon">
-          <image src=" {{item.cover}}" mode="scaleToFill" />
-        </view>
-        <text class="weui-grid__label">{{item.book_name}}</text>
+    <view class="mygrid" wx:for="{{books}}" id="{{index}}" bindtap='readBook' bindlongtap="delete" wx:key="*key">
+      <view class="myipic">
+        <image src=" {{item.cover}}" mode="scaleToFill" />
       </view>
+      <text class="title">{{item.book_name}}</text>
     </view>
   </view>
 </view>

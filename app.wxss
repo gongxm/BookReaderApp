@@ -43,3 +43,17 @@ page{
   text-align: center;
   height: 100%;
 }
+
+
+
+.center {
+    text-align: center;
+}
+
+.gray-color{
+    color: #888;
+}
+
+.tips-size{
+    font-size: 14px;
+}

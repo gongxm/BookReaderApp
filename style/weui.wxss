@@ -76,7 +76,6 @@ icon {
   height: 1px;
   border-top: 1rpx solid #D9D9D9;
   color: #D9D9D9;
-  left: 15px;
 }
 .weui-cell:first-child:before {
   display: none;
@@ -115,8 +114,6 @@ icon {
   border-style: solid;
   -webkit-transform: matrix(0.71, 0.71, -0.71, 0.71, 0, 0);
           transform: matrix(0.71, 0.71, -0.71, 0.71, 0, 0);
-  position: relative;
-  top: -2px;
   position: absolute;
   top: 50%;
   margin-top: -4px;
@@ -245,7 +242,6 @@ icon {
   height: 1px;
   border-bottom: 1rpx solid #D9D9D9;
   color: #D9D9D9;
-  left: 15px;
 }
 .weui-form-preview-bd {
   padding: 10px 15px;
@@ -341,8 +337,6 @@ icon {
   border-style: solid;
   -webkit-transform: matrix(0.71, 0.71, -0.71, 0.71, 0, 0);
           transform: matrix(0.71, 0.71, -0.71, 0.71, 0, 0);
-  position: relative;
-  top: -2px;
   position: absolute;
   top: 50%;
   right: 15px;
@@ -619,9 +613,7 @@ icon {
   content: " ";
   position: absolute;
   left: 0;
-  top: 0;
   width: 1px;
-  bottom: 0;
   border-left: 1rpx solid #C7C7C7;
   color: #C7C7C7;
   left: -0.65em;
@@ -801,7 +793,6 @@ icon {
   right: 0;
   border-bottom: 1rpx solid #E5E5E5;
   color: #E5E5E5;
-  left: 15px;
 }
 .weui-media-box {
   padding: 15px;
@@ -816,7 +807,6 @@ icon {
   height: 1px;
   border-top: 1rpx solid #E5E5E5;
   color: #E5E5E5;
-  left: 15px;
 }
 .weui-media-box:first-child:before {
   display: none;
@@ -828,7 +818,6 @@ icon {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-  word-wrap: normal;
   word-wrap: break-word;
   word-break: break-all;
 }
@@ -946,8 +935,6 @@ icon {
   height: 3px;
   background-color: #1AAD19;
   -webkit-transition: -webkit-transform .3s;
-  transition: -webkit-transform .3s;
-  transition: transform .3s;
   transition: transform .3s, -webkit-transform .3s;
 }
 .weui-navbar-title {

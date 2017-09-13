@@ -1,4 +1,7 @@
-<view class="container">
+<view wx:if='{{loading}}'>
+ <view class="center gray-color tips-size">正在加载数据...</view>
+</view>
+<view class="container" wx:else>
   <view class='top'>
     <view bindtap='go_home'>首页 </view> > 
     <view bindtap='navigateToList'> {{book_name}}</view>
@@ -12,7 +15,7 @@
     </view>
   </view>
   <view wx:else>
-    <view class="center gray-color tips-size">没有数据,请重试!</view>
+    <view class="center gray-color tips-size">没有数据 !</view>
   </view>
 </view>
 <view class="bottom"></view>
