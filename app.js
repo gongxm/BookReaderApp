@@ -1,4 +1,4 @@
-const openIdUrl = require('./config').openIdUrl
+const saveUserInfo = require('./config').saveUserInfo
 const getUserInfoUrl = require('./config').getUserInfo
 const wxlogin = require('./config').wxlogin
 const constants = require('./utils/constants')
@@ -48,8 +48,6 @@ App({
           self.globalData.userInfo.province = res.data.province
           self.globalData.userInfo.country = res.data.country
           self.globalData.userInfo.avatarUrl = res.data.avatarUrl
-
-          // console.log(self.globalData.userInfo)
         } else {
           self.login(null);
         }
@@ -90,12 +88,12 @@ App({
               success: function (res) {
                 if (res.data.errcode == 1) {
                   var thirdSession = res.data.thirdSession
-                  //获取用户信息
+                  //获取用户信息并保存到服务器
                   self.saveUserInfo(thirdSession, page);
                 } else {
                   wx.showToast({
                     title: constants.LOGIN_FAIL,
-                    icon: 'success',
+                    image:'./images/error.png',
                     duration: 2000
                   })
                 }
@@ -105,7 +103,7 @@ App({
           } else {
             wx.showToast({
               title: constants.LOGIN_FAIL,
-              icon: 'success',
+              image: './images/error.png',
               duration: 2000
             })
           }
@@ -130,7 +128,7 @@ App({
       success: function (res) {
         var userInfo = res.userInfo
         wx.request({
-          url: openIdUrl,
+          url: saveUserInfo,
           data: {
             thirdSession: thirdSession,
             encryptedData: res.encryptedData,
@@ -141,26 +139,30 @@ App({
             'content-type': 'application/json'
           },
           success: function (res) {
+            console.log('success')
             if (res.data.errcode == 1) {
               self.getUserInfo(thirdSession, page);
             } else {
               wx.showToast({
                 title: constants.USER_INFO_ERROR,
-                image: 'images/error.png',
+                image: '../../images/error.png',
                 duration: 2000
               })
             }
           },
           fail:(res)=>{
+            console.log('fail')
             if (wx.hideLoading) {
               wx.hideLoading()
             }
+            wx.showToast({
+              title: constants.USER_INFO_ERROR,
+              image: '../../images/error.png',
+              duration: 2000
+            })
           },
           complete: function () {
             isLogin = false
-            if (wx.hideLoading) {
-              wx.hideLoading()
-            }
           }
         })
       },
@@ -220,7 +222,7 @@ App({
         } else {
           wx.showToast({
             title: constants.USER_INFO_ERROR,
-            image: 'images/error.png',
+            image: '../../images/error.png',
             duration: 2000
           })
         }
@@ -228,7 +230,7 @@ App({
       fail: function (res) {
         wx.showToast({
           title: constants.USER_INFO_ERROR,
-          image: 'images/error.png',
+          image: '../../images/error.png',
           duration: 2000
         })
       },

@@ -1,6 +1,4 @@
-
 .myipic {
-
   width: 100px;
   height: 120px;
   margin: 0 auto;
@@ -35,7 +33,13 @@
   padding: 0px;
 }
 
-
 .mygrid:active {
   background-color: #ececec;
+}
+
+.container {
+  height: 15px;
+  position: relative;
+  float: left;
+  width: 100%;
 }

@@ -13,22 +13,16 @@ var host = "https://31412947.qcloud.la"
 var service_name = "BookReaderServer"
 
 var config = {
-
-  // 用code换取openId
-  openIdUrl: `${host}/${service_name}/action/openid`,
-
   //获取thirdSession
   wxlogin: `${host}/${service_name}/action/wxlogin`,
-
+  //保存用户信息到服务器
+  saveUserInfo: `${host}/${service_name}/action/saveUserInfo`,
   //获取用户信息
   getUserInfo: `${host}/${service_name}/action/getUserInfo`,
-
   //获取书籍分类
   getBookCategory: `${host}/${service_name}/action/getBookCategory`,
-
   //获取书籍分类列表
   getCategoryList: `${host}/${service_name}/action/getCategoryList`,
-
   //获取书籍封面
   getImage: `${host}/${service_name}/getImage?cover=`,
   //获取书籍详细信息
