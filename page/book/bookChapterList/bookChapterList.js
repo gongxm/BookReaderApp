@@ -61,14 +61,13 @@ Page({
 
   //加载数据
   loadData: function () {
-    if (isload){
+    if (isload) {
       return
     }
-
     isload = true
-
     var self = this
     self.setData({ loading: true })
+    wx.stopPullDownRefresh()
     wx.request({
       url: getChapterList,
       data: {
@@ -81,22 +80,21 @@ Page({
       success: function (res) {
         if (res.data.errcode == 1) {
           var chapters = res.data.result
-          self.setData({ chapters: chapters, loading: false})
+          self.setData({ chapters: chapters, loading: false })
           //存储数据
           wx.setStorage({
             key: self.data.bookid,
             data: chapters,
           })
 
-        }else{
+        } else {
           self.setData({ loading: false })
         }
       },
-      fail:function(res){
+      fail: function (res) {
         self.setData({ loading: false })
       },
       complete: function () {
-        wx.stopPullDownRefresh()
         isload = false;
       }
     })

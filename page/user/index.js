@@ -80,9 +80,5 @@ Page({
  * 下拉刷新
  */
   onPullDownRefresh: function () {
-   if(wx.hideLoading){
-     wx.hideLoading()
-   }
-   wx.stopPullDownRefresh()
   },
 })

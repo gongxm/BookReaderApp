@@ -97,6 +97,21 @@ Page({
     })
   },
 
+//触摸事件
+  onTouch:function(e){
+    let that = this;
+    //触摸时间距离页面打开的毫秒数  
+    var touchTime = that.data.touch_end - that.data.touch_start;  
+    //如果按下时间大于350为长按  
+    if (touchTime > 300){
+      that.delete(e)
+    }else{//短按
+      that.readBook(e)
+    }
+
+  },
+
+
   //点击阅读
   readBook: function (e) {
     var self = this
@@ -152,7 +167,23 @@ Page({
    */
   onReachBottom: function (e) {
 
-  }
+  },
 
+
+  //触摸按下
+  touchStart:function(e){
+    let that = this;
+    that.setData({
+      touch_start: e.timeStamp
+    })  
+  },
+
+  //触摸结束
+  touchEnd: function (e) {
+    let that = this;
+    that.setData({
+      touch_end: e.timeStamp
+    })  
+  }
 
 });

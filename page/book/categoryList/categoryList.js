@@ -100,9 +100,10 @@ Page({
                 books.push(item)
               }
               self.setData({ loading: false, books: books, over: list.length < pageSize })
-
               //数据加载成功,当前页面自增
               currentPage++
+            }else{
+              self.setData({ loading: false })
             }
           } else {
             self.setData({ loading: false })
@@ -204,6 +205,8 @@ Page({
 
               //数据加载成功,当前页面自增
               currentPage++
+            }else{
+              self.setData({ loading: false })
             }
           } else {
             self.setData({ loading: false })
