@@ -1,18 +1,32 @@
 <view wx:if='{{loading}}'>
- <view class="center gray-color tips-size">正在加载数据...</view>
+  <view class="center gray-color tips-size">正在加载数据...</view>
 </view>
 <view class="container" wx:else>
   <view class='top'>
-    <view bindtap='go_home'>首页 </view> > 
+    <view bindtap='go_home'>首页 </view> >
     <view bindtap='navigateToList'> {{book_name}}</view>
   </view>
-  <view wx:if="{{content}}">
-    <view class='content'> {{content}}</view>
-    <view class="control">
-      <view class='button pre' bindtap="preChapter" hover-class='button_hover' hover-stay-time='100'>上一章</view>
-      <view class='button' bindtap="navigateToList" hover-class='button_hover' hover-stay-time='100'>目录</view>
-      <view class='button next' bindtap="nextChapter" hover-class='button_hover' hover-stay-time='100'>下一章</view>
+  <view wx:if="{{showControl}}">
+    <view class='show_top'>
+      <view bindtap='go_home' class='back_bt'>返回书架</view>
+      <view bindtap='navigateToList' class='book_list_bt'>目录</view>
     </view>
+
+    <view class='show_bottom'>
+      <view class='chapter_control'>
+        <view class='pre_chapter' bindtap="preChapter">
+          上一章
+          <view class="left_jt"></view>
+        </view>
+        <view class='next_chapter' bindtap="nextChapter">
+          下一章
+          <view class="right_jt"></view>
+        </view>
+      </view>
+    </view>
+  </view>
+  <view wx:if="{{content}}">
+    <view class='content' bindtouchmove='hiddenControl' bindtap='showControl'> {{content}}</view>
   </view>
   <view wx:else>
     <view class="center gray-color tips-size">没有数据 !</view>

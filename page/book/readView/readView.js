@@ -2,12 +2,14 @@ const getBookChapter = require('../../../config').getBookChapter
 const constants = require('../../../utils/constants')
 var app = getApp()
 var isLoading = false
+var loadNextChapter = false;
 Page({
 
   /**
    * 页面的初始数据
    */
   data: {
+    showControl: false,
     loading: false,
     chapterid: '',
     chapter_name: '',
@@ -86,33 +88,33 @@ Page({
           var content = res.data.result
           self.setData({ loading: false, content: content })
 
-          //把当前读取的章节信息记录到书籍中
-          wx.getStorage({
-            key: constants.STORAGE_BOOK_LIST,
-            success: function (res) {
-              var books = res.data
-              if (books) {
-                for (var i = 0; i < books.length; i++) {
-                  var book = books[i]
-                  if (book.id == self.data.bookid) {
-                    book.position = self.data.position
-                    break;
-                  }
-                }
-                //重新存储
-                wx.setStorage({
-                  key: constants.STORAGE_BOOK_LIST,
-                  data: books,
-                })
-              }
-            }
-          })
 
         } else {
           self.setData({
             loading: false
           })
         }
+        //把当前读取的章节信息记录到书籍中
+        wx.getStorage({
+          key: constants.STORAGE_BOOK_LIST,
+          success: function (res) {
+            var books = res.data
+            if (books) {
+              for (var i = 0; i < books.length; i++) {
+                var book = books[i]
+                if (book.id == self.data.bookid) {
+                  book.position = self.data.position
+                  break;
+                }
+              }
+              //重新存储
+              wx.setStorage({
+                key: constants.STORAGE_BOOK_LIST,
+                data: books,
+              })
+            }
+          }
+        })
       },
       fail: function (res) {
         self.setData({
@@ -220,5 +222,31 @@ Page({
    */
   onPullDownRefresh: function () {
     this.loadData()
+  },
+
+  //显示控制按钮
+  showControl: function (e) {
+    this.setData({ showControl: !this.data.showControl })
+  },
+
+  //移动页面时,隐藏控制按钮
+  hiddenControl: function (e) {
+    var self = this
+    self.setData({ showControl: false })
+  },
+
+  /**
+   * 页面上拉触底事件的处理函数
+   */
+  onReachBottom: function () {
+    var self = this
+    if (loadNextChapter) {
+      loadNextChapter = false;
+      self.nextChapter()
+    } else {
+      loadNextChapter = true;
+    }
   }
+
+
 })
