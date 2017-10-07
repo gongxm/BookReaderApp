@@ -19,7 +19,11 @@ var CONSTANTS = {
 
     //----------分类列表类型----------
     CATEGORY_TYPE_NORMAL:'1',
-    CATEGORY_TYPE_SEARCH:'2'
+    CATEGORY_TYPE_SEARCH:'2',
+
+
+    //设置信息
+    FONT_SIZE:'font_size',
 
 }
 
