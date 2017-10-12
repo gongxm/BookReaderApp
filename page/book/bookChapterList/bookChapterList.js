@@ -11,6 +11,7 @@ Page({
    * 页面的初始数据
    */
   data: {
+    sort:1,
     loading: false,
     bookid: '',
     chapters: [],

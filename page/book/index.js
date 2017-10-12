@@ -17,7 +17,9 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-
+    this.setData({
+      thirdSession: app.globalData.userInfo.thirdSession,
+    })
   },
 
   /**
@@ -31,9 +33,11 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-    this.setData({
-      thirdSession: app.globalData.userInfo.thirdSession,
-    })
+    if (!this.data.thirdSession) {
+      this.setData({
+        thirdSession: app.globalData.userInfo.thirdSession,
+      })
+    }
   },
 
 
@@ -117,10 +121,10 @@ Page({
         }
       },
       fail: (res) => {
-        console.log("fail userInfo")
+        
       },
       complete: (res) => {
-        console.log("complete userInfo")
+       
       }
     })
   },

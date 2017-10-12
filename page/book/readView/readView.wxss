@@ -211,8 +211,8 @@
 .setting_item:active {
   background: #eee;
 }
-
- .font_size_sub {
+ 
+  .font_size_sub {
   margin-left: 20rpx;
 }
   
@@ -223,14 +223,14 @@
 .night {
   margin-left: 312rpx;
 }
-
+  
 .book_store {
   margin-left: 460rpx;
 }
 
 .list {
   margin-left: 608rpx;
-} 
+}   
 
 .page {
   width: 100%;
