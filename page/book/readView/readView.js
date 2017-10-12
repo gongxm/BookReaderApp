@@ -9,6 +9,8 @@ Page({
    */
   data: {
     size: 16,//页面字体大小
+    night_style: '',
+    night_style_bt: '夜间',
     top_animation: {},
     bottom_animation: {},
     showControl: false,
@@ -44,11 +46,18 @@ Page({
 
     //获取设置信息
     wx.getStorage({
-      key: constants.FONT_SIZE,
+      key: constants.SETTING,
       success: function (res) {
-        var size = res.data
-        if (size) {
-          self.setData({ size: size })
+        var setting = res.data
+        if (setting) {
+          let size = setting.size;
+          let night_style = setting.night_style;
+          if (size) {
+            self.setData({ size: size })
+          }
+          if (night_style){
+            self.setData({ night_style: night_style, night_style_bt: setting.night_style_bt })
+          }
         }
       },
     })
@@ -282,7 +291,6 @@ Page({
   //移动页面时,隐藏控制按钮
   hiddenControl: function (e) {
     var self = this
-    console.log('show control=' + self.data.showControl)
     if (self.data.showControl) {
       var animation = wx.createAnimation({
         transformOrigin: "50% 50%",
@@ -324,11 +332,30 @@ Page({
       size--;
       self.setData({ size: size })
 
-      //存储设置的字体信息
-      wx.setStorage({
-        key: constants.FONT_SIZE,
-        data: size,
+      //获取设置信息
+      wx.getStorage({
+        key: constants.SETTING,
+        success: function (res) {
+          var setting = res.data
+          if (setting) {
+            setting.size=size;
+            //存储设置的字体信息
+            wx.setStorage({
+              key: constants.SETTING,
+              data: setting,
+            })
+          }
+        },
+        fail:function(res){
+          var setting = {size:size}
+          //存储设置的字体信息
+          wx.setStorage({
+            key: constants.SETTING,
+            data: setting,
+          })
+        }
       })
+      
     } else {
       wx.showToast({
         title: '已经是最小了!',
@@ -344,10 +371,28 @@ Page({
     if (size < 20) {
       size++;
       self.setData({ size: size })
-      //存储设置的字体信息
-      wx.setStorage({
-        key: constants.FONT_SIZE,
-        data: size,
+      //获取设置信息
+      wx.getStorage({
+        key: constants.SETTING,
+        success: function (res) {
+          var setting = res.data
+          if (setting) {
+            setting.size = size;
+            //存储设置的字体信息
+            wx.setStorage({
+              key: constants.SETTING,
+              data: setting,
+            })
+          }
+        },
+        fail: function (res) {
+          var setting = { size: size }
+          //存储设置的字体信息
+          wx.setStorage({
+            key: constants.SETTING,
+            data: setting,
+          })
+        }
       })
     } else {
       wx.showToast({
@@ -355,5 +400,64 @@ Page({
       })
     }
   },
+
+
+  //夜间模式
+  night_style_change: function (e) {
+    let self = this
+    if (self.data.night_style) {
+      self.setData({ night_style: '', night_style_bt: '夜间' })
+      //获取设置信息
+      wx.getStorage({
+        key: constants.SETTING,
+        success: function (res) {
+          var setting = res.data
+          if (setting) {
+            setting.night_style = '';
+            setting.night_style_bt = '夜间';
+            //存储设置的字体信息
+            wx.setStorage({
+              key: constants.SETTING,
+              data: setting,
+            })
+          }
+        },
+        fail: function (res) {
+          var setting = { night_style: '', night_style_bt: '夜间' }
+          //存储设置的字体信息
+          wx.setStorage({
+            key: constants.SETTING,
+            data: setting,
+          })
+        }
+      })
+    } else {
+      self.setData({ night_style: 'night_style', night_style_bt: '日间' })
+      //获取设置信息
+      wx.getStorage({
+        key: constants.SETTING,
+        success: function (res) {
+          var setting = res.data
+          if (setting) {
+            setting.night_style = 'night_style';
+            setting.night_style_bt = '日间';
+            //存储设置的字体信息
+            wx.setStorage({
+              key: constants.SETTING,
+              data: setting,
+            })
+          }
+        },
+        fail: function (res) {
+          var setting = { night_style: 'night_style', night_style_bt: '日间' }
+          //存储设置的字体信息
+          wx.setStorage({
+            key: constants.SETTING,
+            data: setting,
+          })
+        }
+      })
+    }
+  }
 
 })

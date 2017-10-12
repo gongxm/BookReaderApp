@@ -13,10 +13,9 @@
 }
 
 .button {
-  /* color: #ff8719; #0BB20C; */
   color: #ff8719;
   font-weight: bold;
-  border: 1px #ff8719 double;
+  border: 1px #ececec double;
   height: 40px;
   margin-top: 5px;
   margin-left: 5px;

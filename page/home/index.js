@@ -81,6 +81,11 @@ Page({
                       title: '删除成功',
                       duration: 2000
                     })
+
+                    //移除书籍对应的章节列表
+                    wx.removeStorage({
+                      key: book.id.toString(),
+                    })
                   },
                   fail: function (res) {
                     wx.showToast({
@@ -97,19 +102,6 @@ Page({
     })
   },
 
-//触摸事件
-  onTouch:function(e){
-    let that = this;
-    //触摸时间距离页面打开的毫秒数  
-    var touchTime = that.data.touch_end - that.data.touch_start;  
-    //如果按下时间大于350为长按  
-    if (touchTime > 300){
-      that.delete(e)
-    }else{//短按
-      that.readBook(e)
-    }
-
-  },
 
 
   //点击阅读

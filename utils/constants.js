@@ -23,7 +23,7 @@ var CONSTANTS = {
 
 
     //设置信息
-    FONT_SIZE:'font_size',
+    SETTING:'setting',
 
 }
 
