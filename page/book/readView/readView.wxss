@@ -197,40 +197,40 @@
 }
 
 .setting_item {
-  width: 60px;
-  padding-top: 10px;
+  width: 120rpx;
+  padding-top: 20rpx;
   text-align: center;
-  height: 40px;
-  border-radius: 5px;
+  height: 80rpx;
+  border-radius: 10rpx;
   background: #ccc;
   color: white;
   position: fixed;
-  margin-top: 45px;
+  margin-top: 43px;
 }
 
 .setting_item:active {
   background: #eee;
 }
 
-.font_size_sub {
-  margin-left: 5px;
+ .font_size_sub {
+  margin-left: 20rpx;
 }
-
+  
 .font_size_add {
-  margin-left: 80px;
+  margin-left: 166rpx;
 }
 
 .night {
-  margin-left: 155px;
+  margin-left: 312rpx;
 }
 
 .book_store {
-  margin-left: 230px;
+  margin-left: 460rpx;
 }
 
 .list {
-  margin-left: 305px;
-}
+  margin-left: 608rpx;
+} 
 
 .page {
   width: 100%;

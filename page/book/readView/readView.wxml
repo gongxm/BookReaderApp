@@ -19,6 +19,13 @@
       <view bindtap='go_home' class='back_bt'>返回书架</view>
       <view bindtap='navigateToList' class='book_list_bt'>目录</view>
      </view>   -->
+    </view>
+    <view class="{{bt_class}}">
+      <view class='button pre' bindtap="preChapter" hover-class='button_hover' hover-stay-time='100'>上一章</view>
+      <view class='button' bindtap="navigateToList" hover-class='button_hover' hover-stay-time='100'>目录</view>
+      <view class='button next' bindtap="nextChapter" hover-class='button_hover' hover-stay-time='100'>下一章</view>
+    </view>
+  </view>
       <view class='show_bottom' animation="{{bottom_animation}}">
         <view class='chapter_control'>
           <view class='pre_chapter' bindtap="preChapter">
@@ -38,12 +45,5 @@
           <view class='setting_item list' bindtap='navigateToList'>目录</view>
         </view>
       </view>
-    </view>
-    <view class="{{bt_class}}">
-      <view class='button pre' bindtap="preChapter" hover-class='button_hover' hover-stay-time='100'>上一章</view>
-      <view class='button' bindtap="navigateToList" hover-class='button_hover' hover-stay-time='100'>目录</view>
-      <view class='button next' bindtap="nextChapter" hover-class='button_hover' hover-stay-time='100'>下一章</view>
-    </view>
-  </view>
   <view class="bottom"></view>
 </view>
