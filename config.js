@@ -31,6 +31,8 @@ var config = {
   getChapterList: `${host}/${service_name}/action/getChapterList`,
   //获取书籍章节内容
   getBookChapter: `${host}/${service_name}/action/getBookChapter`,
+  //更新当前书籍
+  updateBook: `${host}/${service_name}/action/updateBook`,
   //搜索书籍或者作者
   search: `${host}/${service_name}/action/search`,
 };

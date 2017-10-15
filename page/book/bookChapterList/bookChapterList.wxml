@@ -1,15 +1,16 @@
 <view class='loading' wx:if='{{loading}}'>
-  <image src='../../../images/loading.gif'  mode='aspectFit'></image>
+  <image src='../../../images/loading.gif' mode='aspectFit'></image>
 </view>
 
 <view wx:else>
   <view wx:if='{{chapters.length>0}}'>
     <view class='toggle-button'>反序</view>
+    <view class='update-button' bindtap='updateBook'>更新</view>
     <view class="chapter" hover-class="navigator" hover-stay-time="100" bindtap="navigateToBook" wx:for="{{chapters}}" id="{{index}}" wx:key="*key">
       <view>{{item.chapter_name}}</view>
     </view>
   </view>
   <view wx:else>
-     <view class="center gray-color tips-size">没有数据,请重试!</view>
+    <view class="center gray-color tips-size">没有数据,请重试!</view>
   </view>
 </view>

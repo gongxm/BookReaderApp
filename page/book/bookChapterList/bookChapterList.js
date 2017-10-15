@@ -1,5 +1,6 @@
 // bookChapterList.js
 const getChapterList = require('../../../config').getChapterList
+const updateBook = require('../../../config').updateBook
 const constants = require('../../../utils/constants')
 var app = getApp()
 
@@ -11,7 +12,7 @@ Page({
    * 页面的初始数据
    */
   data: {
-    sort:1,
+    sort: 1,
     loading: false,
     bookid: '',
     chapters: [],
@@ -118,7 +119,45 @@ Page({
    * 页面相关事件处理函数--监听用户下拉动作
    */
   onPullDownRefresh: function () {
+
     this.loadData()
+
+  },
+
+  //更新书籍
+  updateBook: function (e) {
+    var self = this
+    if (isload) {
+      return
+    }
+    isload = true
+    wx.showLoading({
+      title: '正在更新...',
+    })
+    wx.request({
+      url: updateBook,
+      data: {
+        id: self.data.bookid
+      },
+      method: 'POST',
+      header: {
+        'content-type': 'application/json'
+      },
+      success: function (res) {
+        if (res.data.errcode == 1) {
+          isload = false
+          self.loadData()
+        } else {
+          wx.showToast({
+            title: '更新失败!',
+          })
+        }
+      },
+      complete: function (res) {
+        isload = false
+        wx.hideLoading()
+      }
+    })
   }
 
 

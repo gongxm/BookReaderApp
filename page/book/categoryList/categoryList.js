@@ -94,15 +94,17 @@ Page({
           if (res.data.errcode == 1) {
             var list = res.data.result;
             if (list && list.length > 0) {
+              var reg = new RegExp("=", "g");
               var books = self.data.books
               for (var i = 0; i < list.length; i++) {
                 var item = list[i]
+                item.id = item.id.replace(reg, '#')
                 books.push(item)
               }
               self.setData({ loading: false, books: books, over: list.length < pageSize })
               //数据加载成功,当前页面自增
               currentPage++
-            }else{
+            } else {
               self.setData({ loading: false })
             }
           } else {
@@ -205,7 +207,7 @@ Page({
 
               //数据加载成功,当前页面自增
               currentPage++
-            }else{
+            } else {
               self.setData({ loading: false })
             }
           } else {
