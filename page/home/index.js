@@ -7,14 +7,17 @@ var app = getApp()
 Page({
   data: {
     books: [],
-    animation: {}
+    animation: {},
+    permissions:''
   },
 
   /**
    * 页面初始化 options为页面跳转所带来的参数
    */
   onLoad: function (options) {
-
+    this.setData({
+      permissions: app.globalData.userInfo.permissions
+    })
   },
 
   /**
@@ -120,7 +123,7 @@ Page({
     wx.getStorage({
       key: bookid,
       success: function (res) {
-        var chapters = res.data
+        var chapters = res.data.chapters
         var chapter = chapters[0]
         for (var i = 0; i < chapters.length; i++) {
           if (chapters[i].position == position) {

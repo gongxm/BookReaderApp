@@ -20,6 +20,7 @@ App({
       avatarUrl: ''
     },
 
+    book: {}
 
   },
 
@@ -36,7 +37,6 @@ App({
     wx.getStorage({
       key: constants.STORAGE_USERINFO,
       success: function (res) {//已登录
-
         if (res.data.thirdSession != undefined && res.data.thirdSession != '') {
           self.globalData.userInfo.thirdSession = res.data.thirdSession
           self.globalData.userInfo.username = res.data.username
@@ -51,7 +51,6 @@ App({
         } else {
           self.login(null);
         }
-
       },
       fail: function (res) {//未登录，引导登录
         self.login(null)
@@ -69,7 +68,7 @@ App({
       isLogin = true
       wx.showLoading({
         title: '正在登陆...',
-        mask:true
+        mask: true
       })
 
       wx.login({
@@ -93,7 +92,7 @@ App({
                 } else {
                   wx.showToast({
                     title: constants.LOGIN_FAIL,
-                    image:'./images/error.png',
+                    image: './images/error.png',
                     duration: 2000
                   })
                 }
@@ -109,8 +108,8 @@ App({
           }
 
         },
-        fail:(res)=>{
-          if(wx.hideLoading){
+        fail: (res) => {
+          if (wx.hideLoading) {
             wx.hideLoading()
           }
         }
@@ -150,7 +149,7 @@ App({
               })
             }
           },
-          fail:(res)=>{
+          fail: (res) => {
             console.log('fail')
             if (wx.hideLoading) {
               wx.hideLoading()
@@ -213,7 +212,7 @@ App({
             data: self.globalData.userInfo
           })
 
-          if (page!=null){
+          if (page != null) {
             page.setData({
               thirdSession: self.globalData.userInfo.thirdSession,
               userInfo: self.globalData.userInfo
@@ -234,11 +233,19 @@ App({
           duration: 2000
         })
       },
-      complete:(res)=>{
+      complete: (res) => {
         if (wx.hideLoading) {
           wx.hideLoading()
         }
       }
+    })
+  },
+
+
+  //回到书架
+  go_home:function(){
+    wx.reLaunch({
+      url: '../../home/index',
     })
   }
 

@@ -65,6 +65,11 @@ Page({
     })
   },
 
+  //回到主页
+  go_home: function (e) {
+    app.go_home()
+  },
+
 
   //加载数据
   loadData: function () {
@@ -144,7 +149,18 @@ Page({
     var self = this
     self.setData({ loading: true, over: false, books: [] })
     currentPage = 1;
-    this.loadData()
+    var type = this.data.type
+    if (type == constants.CATEGORY_TYPE_NORMAL) {
+      this.loadData()
+    } else if (type == constants.CATEGORY_TYPE_SEARCH) {
+      //搜索
+      this.search()
+    } else {
+      wx.showToast({
+        title: '错误的类型!',
+        image: '../../../images/error.png'
+      })
+    }
   },
 
   /**

@@ -31,9 +31,17 @@ Page({
     wx.getStorage({
       key: bookid,
       success: function (res) {
-        var list = res.data
-        if (list && list.length > 0) {
-          self.setData({ loading: false, chapters: list })
+        var data = res.data
+        if (data) {
+          var list = data.chapters
+          var sort = data.sort
+          self.setData({ sort: sort })
+          if (list && list.length > 0) {
+            self.sort(list)
+            self.setData({ loading: false, chapters: list })
+          } else {
+            self.loadData()
+          }
         } else {
           self.loadData()
         }
@@ -82,11 +90,13 @@ Page({
       success: function (res) {
         if (res.data.errcode == 1) {
           var chapters = res.data.result
+          self.sort(chapters)
           self.setData({ chapters: chapters, loading: false })
+          var data = { chapters: chapters, sort: self.data.sort }
           //存储数据
           wx.setStorage({
             key: self.data.bookid,
-            data: chapters,
+            data: data,
           })
 
         } else {
@@ -156,6 +166,49 @@ Page({
       complete: function (res) {
         isload = false
         wx.hideLoading()
+      }
+    })
+  },
+
+  //集合排序
+  sortList: function (e) {
+    var self = this
+    var sort = self.data.sort == 1 ? 2 : 1;
+    var list = self.data.chapters
+    self.setData({
+      sort: sort
+    })
+    self.sort(list)
+    self.setData({ chapters: list })
+  },
+
+  //抽取排序功能
+  sort: function (list) {
+    var self = this
+    var sort = self.data.sort
+    //反序
+    if (sort == 2) {
+      list.sort(function (a, b) {
+        return b.position - a.position
+      });
+    } else {//正序
+      list.sort(function (a, b) {
+        return a.position - b.position
+      });
+    }
+
+    wx.getStorage({
+      key: self.data.bookid,
+      success: function (res) {
+        var data = res.data
+        if (data) {
+          data.sort = sort
+          //存储数据
+          wx.setStorage({
+            key: self.data.bookid,
+            data: data,
+          })
+        }
       }
     })
   }

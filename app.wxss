@@ -55,3 +55,22 @@ page{
 .tips-size{
     font-size: 14px;
 }
+
+.home-button{
+    border-radius: 48rpx;
+  background: #ff8719;
+  color: #fff;
+  text-align: center;
+  line-height: 96rpx;
+  margin: auto;
+  position: fixed;
+  right: 32rpx;
+  bottom: 32px;
+  width: 96rpx;
+  height: 96rpx;
+  border: 1rpx solid #d9d9d9;
+}
+
+.home-button:active{
+    background-color: #888;
+}

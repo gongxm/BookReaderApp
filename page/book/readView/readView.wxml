@@ -4,7 +4,7 @@
   </view>
   <view class="container" wx:else>
     <view class='top'>
-      <view bindtap='go_home'>首页 </view> >
+      <view bindtap='go_back_home'>首页 </view> >
       <view bindtap='navigateToList'> {{book_name}}</view>
     </view>
 
@@ -15,10 +15,6 @@
       <view class="gray-color tips-size center full {{night_style}}" bindtap='showControl'>没有数据 !</view>
     </view>
     <view>
-      <!-- <view class='show_top' animation="{{top_animation}}">
-      <view bindtap='go_home' class='back_bt'>返回书架</view>
-      <view bindtap='navigateToList' class='book_list_bt'>目录</view>
-     </view>   -->
     </view>
     <view class="{{bt_class}}">
       <view class='button pre' bindtap="preChapter" hover-class='button_hover' hover-stay-time='100'>上一章</view>
@@ -41,7 +37,7 @@
           <view class='setting_item font_size_sub' bindtap='font_size_sub'>Aa-</view>
           <view class='setting_item font_size_add' bindtap='font_size_add'>Aa+</view>
           <view class='setting_item night' bindtap='night_style_change'>{{night_style_bt}}</view>
-          <view class='setting_item book_store' bindtap='go_home'>书架</view>
+          <view class='setting_item book_store' bindtap='go_back_home'>书架</view>
           <view class='setting_item list' bindtap='navigateToList'>目录</view>
         </view>
       </view>

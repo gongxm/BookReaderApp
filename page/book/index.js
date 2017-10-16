@@ -10,7 +10,8 @@ Page({
     loading: false,
     thirdSession: '',
     categories: [],
-    inputValue: ''
+    inputValue: '',
+    permissions: ''
   },
 
   /**
@@ -19,6 +20,7 @@ Page({
   onLoad: function (options) {
     this.setData({
       thirdSession: app.globalData.userInfo.thirdSession,
+      permissions :app.globalData.userInfo.permissions
     })
   },
 
@@ -36,6 +38,12 @@ Page({
     if (!this.data.thirdSession) {
       this.setData({
         thirdSession: app.globalData.userInfo.thirdSession,
+      })
+    }
+
+    if (this.data.permissions=='USER'){
+      wx.setNavigationBarTitle({
+        title: '在线书城',
       })
     }
   },

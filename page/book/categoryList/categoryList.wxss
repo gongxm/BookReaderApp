@@ -64,7 +64,6 @@
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
-    word-wrap: normal;
     word-wrap: break-word;
     word-break: break-all;
 }
@@ -78,3 +77,4 @@
     font-size: 12px;
     color: #888;
 }
+

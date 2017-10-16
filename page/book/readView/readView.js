@@ -55,7 +55,7 @@ Page({
           if (size) {
             self.setData({ size: size })
           }
-          if (night_style){
+          if (night_style) {
             self.setData({ night_style: night_style, night_style_bt: setting.night_style_bt })
           }
         }
@@ -165,17 +165,15 @@ Page({
       wx.showToast({
         title: '第一章了!',
       })
-
       return;
     }
-
     position = position - 1
 
     //获取到列表
     wx.getStorage({
       key: self.data.bookid,
       success: function (res) {
-        var list = res.data
+        var list = res.data.chapters
         if (list && list.length > 0) {
           for (var i = 0; i < list.length; i++) {
             var chapter = list[i]
@@ -206,12 +204,11 @@ Page({
     var self = this
     var position = parseInt(self.data.position) + 1
 
-
     //获取到列表
     wx.getStorage({
       key: self.data.bookid,
       success: function (res) {
-        var list = res.data
+        var list = res.data.chapters
         if (list && list.length > 0) {
           if (position >= list.length) {
             wx.showToast({
@@ -234,10 +231,131 @@ Page({
       },
     })
   },
+
+
   //回到书架
-  go_home: function (e) {
-    wx.reLaunch({
-      url: '../../home/index',
+  go_back_home: function (e) {
+    var self = this
+    var bookid = self.data.bookid
+    //获取到列表
+    wx.getStorage({
+      key: constants.STORAGE_BOOK_LIST,
+      success: function (res) {
+        var books = res.data
+        var exists = false
+        if (books && books.length > 0) {
+          for (var i = 0; i < books.length; i++) {
+            var book = books[i]
+            if (book.id == bookid) {
+              exists = true
+              break
+            }
+          }
+        }
+
+        if (!exists) {
+          self.add_to_bookstore()
+        }else{
+          app.go_home()
+        }
+      },
+      fail:function(res){
+        self.add_to_bookstore()
+      }
+    })
+  },
+
+
+  //添加到书架
+  add_to_bookstore:function(){
+    var self = this
+    var bookid = self.data.bookid
+    wx.showModal({
+      title: '加入书架吗?',
+      content: '',
+      confirmText: '加入',
+      cancelText: '不了',
+      cancelColor:'#888',
+      success: function (res) {
+        if (res.confirm) {
+          wx.getStorage({
+            key: constants.STORAGE_BOOK_LIST,
+            success: function (res) {
+              var book_list = res.data;
+              if (!book_list) {
+                book_list = []
+              }
+              var book = app.globalData.book
+              var exists = false
+              for (var i = 0; i < book_list.length; i++) {
+                var oldBook = book_list[i];
+                if (oldBook.id == book.id) {
+                  exists = true;
+                  break;
+                }
+              }
+              if (exists) {
+                wx.showToast({
+                  title: '已经加入过书架了!',
+                  duration: 2000
+                })
+              } else {
+                book.position = self.data.position
+                book_list.push(book)
+                wx.setStorage({
+                  key: constants.STORAGE_BOOK_LIST,
+                  data: book_list,
+                  success: function (res) {
+                    wx.showToast({
+                      title: '加入书架成功',
+                      duration: 2000
+                    })
+                  },
+                  fail: function (res) {
+                    wx.showToast({
+                      title: '加入书架失败,请重试',
+                      duration: 2000
+                    })
+                  }
+                })
+              }
+            },
+            fail: function (res) {
+              var book_list = []
+              var book = app.globalData.book
+              book.position = self.data.position
+              book_list.push(book)
+              wx.setStorage({
+                key: constants.STORAGE_BOOK_LIST,
+                data: book_list,
+                success: function (res) {
+                  wx.showToast({
+                    title: '加入书架成功',
+                    duration: 2000
+                  })
+                },
+                fail: function (res) {
+                  wx.showToast({
+                    title: '加入书架失败,请重试',
+                    duration: 2000
+                  })
+                }
+              })
+            }
+          })
+        } else if (res.cancel) {
+          //清除缓存
+          wx.removeStorage({
+            key: bookid,
+            success: function (res) { },
+          })
+        }
+      },
+
+      //不管选择哪个, 都要跳转到主页面
+      complete: function () {
+        app.go_home()
+      }
     })
   },
 
@@ -256,15 +374,8 @@ Page({
       timingFunction: 'ease',
       delay: 0
     })
-    this.setData({ showControl: !this.data.showControl, top_animation: animation.export(), bottom_animation: animation.export() })
+    this.setData({ showControl: !this.data.showControl, bottom_animation: animation.export() })
     if (this.data.showControl) {
-      setTimeout(function () {
-        animation.translate(0, 80).step()
-        this.setData({
-          top_animation: animation.export()
-        })
-      }.bind(this), 1)
-
       setTimeout(function () {
         animation.translate(0, -100).step()
         this.setData({
@@ -272,13 +383,6 @@ Page({
         })
       }.bind(this), 1)
     } else {
-      setTimeout(function () {
-        animation.translate(0, -80).step()
-        this.setData({
-          top_animation: animation.export()
-        })
-      }.bind(this), 1)
-
       setTimeout(function () {
         animation.translate(0, 100).step()
         this.setData({
@@ -298,14 +402,7 @@ Page({
         timingFunction: 'ease',
         delay: 0
       })
-      self.setData({ showControl: !this.data.showControl, top_animation: animation.export(), bottom_animation: animation.export() })
-      self.setData({ showControl: false })
-      setTimeout(function () {
-        animation.translate(0, -80).step()
-        this.setData({
-          top_animation: animation.export()
-        })
-      }.bind(this), 1)
+      self.setData({ showControl:false,bottom_animation: animation.export() })
 
       setTimeout(function () {
         animation.translate(0, 100).step()
@@ -324,6 +421,13 @@ Page({
   },
 
 
+  //页面卸载
+  onUnload: function () {
+
+
+  },
+
+
   //缩小字体
   font_size_sub: function (e) {
     let self = this;
@@ -338,7 +442,7 @@ Page({
         success: function (res) {
           var setting = res.data
           if (setting) {
-            setting.size=size;
+            setting.size = size;
             //存储设置的字体信息
             wx.setStorage({
               key: constants.SETTING,
@@ -346,8 +450,8 @@ Page({
             })
           }
         },
-        fail:function(res){
-          var setting = {size:size}
+        fail: function (res) {
+          var setting = { size: size }
           //存储设置的字体信息
           wx.setStorage({
             key: constants.SETTING,
@@ -355,7 +459,7 @@ Page({
           })
         }
       })
-      
+
     } else {
       wx.showToast({
         title: '已经是最小了!',

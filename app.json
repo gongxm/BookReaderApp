@@ -24,13 +24,13 @@
         "pagePath": "page/book/index",
         "iconPath": "images/book_normal.png",
         "selectedIconPath": "images/book_selected.png",
-        "text": "书城"
+        "text": "浏览"
       },
       {
         "pagePath": "page/home/index",
         "iconPath": "images/book_store_normal.png",
         "selectedIconPath": "images/book_store_selected.png",
-        "text": "书架"
+        "text": "主页"
       },
       {
         "pagePath": "page/user/index",

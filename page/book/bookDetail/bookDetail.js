@@ -19,7 +19,6 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-
     id = options.id
     this.loadData()
   },
@@ -35,7 +34,36 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
+    //如果没有加入到书架,删除缓存
+    //获取到列表
+    wx.getStorage({
+      key: constants.STORAGE_BOOK_LIST,
+      success: function (res) {
+        var books = res.data
+        var exists = false
+        if (books && books.length > 0) {
+          for (var i = 0; i < books.length; i++) {
+            var book = books[i]
+            if (book.id == id) {
+              exists = true
+              break
+            }
+          }
+        }
 
+        if (!exists) {
+          wx.removeStorage({
+            key: id,
+            success: function (res) { },
+          })
+        }
+      }
+    })
+  },
+
+  //回到主页
+  go_home: function (e) {
+    app.go_home()
   },
 
 
@@ -60,11 +88,12 @@ Page({
       success: function (res) {
         if (res.data.errcode == 1) {
           var reg = new RegExp("<br />", "g");
-          var reg2 = new RegExp("&nbsp;", "g");
+          var reg2 = new RegExp("</p>", "g");
           var book = res.data.result
-          book.shortIntroduce = book.shortIntroduce.replace(reg, '\r\n').replace(reg2, ' ')
+          book.shortIntroduce = book.shortIntroduce.replace(reg, '\n').replace(reg2, '\n')
           self.setData({ loading: false, book: book })
-
+          //把书籍信息存储到全局变量中
+          app.globalData.book = book
           var exists = false;
           wx.getStorage({
             key: constants.STORAGE_BOOK_LIST,
@@ -105,7 +134,6 @@ Page({
   //添加到书架
   addToBookCase: function () {
     var self = this
-    console.log('添加到书架')
     wx.getStorage({
       key: constants.STORAGE_BOOK_LIST,
       success: function (res) {

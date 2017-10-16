@@ -19,3 +19,4 @@
 <view wx:else>
   <view class="center gray-color tips-size">没有数据!</view>
 </view>
+<view class='home-button' bindtap='go_home'>书架</view>
