@@ -2,8 +2,8 @@
 
 .chapter {
   background-color: #fffff0;
-  size: 16px;
   border: 1px #888 ridge;
+  size: 16px;
   padding: 5px;
   margin: 3px;
 }

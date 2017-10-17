@@ -13,7 +13,21 @@
   <view class="container">
   </view>
 </view>
-<view wx:else>
+<view class='plan' wx:else>
   <text>未完成事项:</text>
-  <input placeholder='添加计划' type='text' maxlength='30' confirm-type='search' confirm-hold='false' class=''></input>
+  <view class='add_container'>
+    <input bindconfirm='add_plan' value='{{inputValue}}' placeholder='添加计划' type='text' maxlength='30' confirm-type='search' confirm-hold='false' class='input_text'></input>
+  </view>
+  <view class='plan_container' wx:if='{{plan.length>0}}'>
+    <view class='plan_item' wx:for='{{plan}}' wx:key='*key'>
+      <radio bindtap='change' class='del_font' id='{{index}}' checked='{{item.checked}}' wx:if='{{item.checked}}'>{{item.value}}</radio>
+      <radio bindtap='change' id='{{index}}' checked='{{item.checked}}' wx:else>{{item.value}}</radio>
+    </view>
+    <view class='control'>
+    <view class='ctl_bt' bindtap='selectAll'>全选</view>
+    <view class='ctl_bt' bindtap='delete_plan'>删除</view>
+    <view class='ctl_bt' bindtap='setFinish'>完成</view>
+    </view>
+  </view>
+
 </view>

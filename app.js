@@ -32,6 +32,7 @@ App({
     self.checkLogin()
   },
 
+  /*检测是否登录过，登录过则取缓存信息，没有则引导登录*/
   checkLogin: function () {
     var self = this
     wx.getStorage({
@@ -59,7 +60,7 @@ App({
   },
 
   /**
-   * 检测是否登录过，登录过则取缓存信息，没有则引导登录
+   * 登陆
    */
   login: function (page) {
 
@@ -96,6 +97,13 @@ App({
                     duration: 2000
                   })
                 }
+              },
+              fail:function(res){
+                wx.showToast({
+                  title: constants.LOGIN_FAIL,
+                  image: './images/error.png',
+                  duration: 2000
+                })
               }
             })
 
@@ -138,7 +146,6 @@ App({
             'content-type': 'application/json'
           },
           success: function (res) {
-            console.log('success')
             if (res.data.errcode == 1) {
               self.getUserInfo(thirdSession, page);
             } else {
@@ -237,6 +244,7 @@ App({
         if (wx.hideLoading) {
           wx.hideLoading()
         }
+        wx.stopPullDownRefresh()
       }
     })
   },

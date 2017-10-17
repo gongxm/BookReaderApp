@@ -85,5 +85,6 @@ Page({
  * 下拉刷新
  */
   onPullDownRefresh: function () {
+    app.login(this)
   },
 })

@@ -1,6 +1,7 @@
 const getBookCategory = require('../../config').getBookCategory
 const constants = require('../../utils/constants')
 var app = getApp()
+var hasLoadData = false
 Page({
 
   /**
@@ -20,7 +21,7 @@ Page({
   onLoad: function (options) {
     this.setData({
       thirdSession: app.globalData.userInfo.thirdSession,
-      permissions :app.globalData.userInfo.permissions
+      permissions: app.globalData.userInfo.permissions
     })
   },
 
@@ -28,22 +29,39 @@ Page({
    * 生命周期函数--监听页面初次渲染完成
    */
   onReady: function () {
-    this.loadData()
+    if (app.globalData.userInfo.permissions == 'USER') {
+      hasLoadData = true
+      this.loadData()
+    }
   },
 
   /**
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-    if (!this.data.thirdSession) {
-      this.setData({
-        thirdSession: app.globalData.userInfo.thirdSession,
-      })
-    }
-
-    if (this.data.permissions=='USER'){
+    this.setData({
+      thirdSession: app.globalData.userInfo.thirdSession,
+      permissions: app.globalData.userInfo.permissions
+    })
+    if (app.globalData.userInfo.permissions == 'USER') {
       wx.setNavigationBarTitle({
         title: '在线书城',
+      })
+      if(!hasLoadData){
+        hasLoadData = true
+        this.loadData()
+      }
+    } else {
+      var self = this
+      wx.getStorage({
+        key: constants.STORAGE_PLAN_HISTORY,
+        success: function (res) {
+          var list = res.data;
+          if (list && list.length > 0) {
+            self.setData({ history: list })
+          }
+
+        }
       })
     }
   },
@@ -129,10 +147,10 @@ Page({
         }
       },
       fail: (res) => {
-        
+
       },
       complete: (res) => {
-       
+
       }
     })
   },
@@ -167,6 +185,56 @@ Page({
       })
       wx.navigateTo({
         url: './categoryList/categoryList?category=搜索结果&keyword=' + value + '&type=' + constants.CATEGORY_TYPE_SEARCH,
+      })
+    }
+  },
+
+
+
+  //清空历史
+  clear: function (e) {
+    var self = this
+    wx.showModal({
+      title: '确定要清空历史吗?',
+      content: '',
+      confirmText: '确定',
+      cancelText: '不了',
+      confirmColor: '#f00',
+      cancelColor: '#3CC51F',
+      success: function (res) {
+        if (res.confirm) {
+          wx.setStorage({
+            key: constants.STORAGE_PLAN_HISTORY,
+            data: [],
+          })
+          self.setData({ history: [] })
+        }
+      }
+    })
+  },
+
+  delete: function (e) {
+    var index = e.currentTarget.id
+    var self = this
+    var history = self.data.history
+    if (history && history.length > 0) {
+      wx.showModal({
+        title: '确定要删除吗?',
+        content: '',
+        confirmText: '确定',
+        cancelText: '不了',
+        confirmColor: '#f00',
+        cancelColor: '#3CC51F',
+        success: function (res) {
+          if (res.confirm) {
+            history.splice(index, 1)
+            wx.setStorage({
+              key: constants.STORAGE_PLAN_HISTORY,
+              data: history,
+            })
+            self.setData({ history: history })
+          }
+        }
       })
     }
   }

@@ -26,3 +26,52 @@
   font-size: 18px;
   border-radius: 5px;
 }
+
+.container{
+  margin: 10px;
+}
+
+.history_container {
+  margin: 10px;
+  padding: 10px;
+  border: #000 1px double;
+  border-radius: 5px;
+}
+
+.history_item {
+  text-align: center;
+  margin: 5px;
+  padding: 5px;
+  background-color: #fffff0;
+  border: 1px #888 dotted;
+  display: flex;
+}
+
+.control{
+  display: flex;
+  width: 100%;
+}
+
+.ctl_bt{
+  margin: 0px auto;
+  background: #eee;
+  text-align: center;
+  padding-top: 5px;
+  border-radius: 5px;
+  height: 30px;
+  width:80px;
+}
+.ctl_bt:active {
+  background: #888;
+}
+
+.img{
+  position: fixed;
+  right: 50px;
+  width: 30px;
+  height: 30px;
+}
+
+.img:active{
+  background: #888;
+}

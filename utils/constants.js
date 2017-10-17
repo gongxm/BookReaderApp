@@ -16,6 +16,8 @@ var CONSTANTS = {
     //---------缓存信息---------
     STORAGE_USERINFO: 'userInfo',
     STORAGE_BOOK_LIST:'book_list',
+    STORAGE_PLAN_LIST:'plan_list',
+    STORAGE_PLAN_HISTORY: 'plan_history',
 
     //----------分类列表类型----------
     CATEGORY_TYPE_NORMAL:'1',

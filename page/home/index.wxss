@@ -44,3 +44,52 @@
   float: left;
   width: 100%;
 }
+
+.plan {
+  display: relative;
+  margin: 10px;
+}
+
+
+.add_container {
+  display: flex;
+}
+
+.input_text {
+  border-radius: 5px;
+  height: 30px;
+  width: 100%;
+  border: #888 1px double;
+}
+
+.plan_container {
+  margin-top: 10px;
+  padding: 10px;
+  border: #000 1px double;
+  border-radius: 5px;
+}
+
+.plan_item{
+  margin: 10px;
+}
+
+.del_font{
+ text-decoration: line-through;
+}
+
+.control{
+  display: flex
+}
+
+.ctl_bt{
+  margin-right: 30px;
+  background: #eee;
+  text-align: center;
+  padding-top: 5px;
+  border-radius: 5px;
+  height: 30px;
+  width:33%;
+}
+.ctl_bt:active {
+  background: #888;
+}
