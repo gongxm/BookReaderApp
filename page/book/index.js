@@ -118,9 +118,9 @@ Page({
           icon: 'success',
           duration: 2000
         })
-        self.setData({ loading: false })
       },
       complete() {
+        self.setData({ loading: false })
         wx.stopPullDownRefresh()
       }
     })

@@ -55,6 +55,8 @@ App({
       },
       fail: function (res) {//未登录，引导登录
         self.login(null)
+      },
+      complete:function(res){
       }
     })
   },

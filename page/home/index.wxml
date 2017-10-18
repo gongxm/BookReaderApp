@@ -16,7 +16,7 @@
 <view class='plan' wx:else>
   <text>未完成事项:</text>
   <view class='add_container'>
-    <input bindconfirm='add_plan' value='{{inputValue}}' placeholder='添加计划' type='text' maxlength='30' confirm-type='search' confirm-hold='false' class='input_text'></input>
+    <input bindconfirm='add_plan' value='{{inputValue}}' placeholder='添加计划' type='text' maxlength='30' confirm-type='done' confirm-hold='false' class='input_text'></input>
   </view>
   <view class='plan_container' wx:if='{{plan.length>0}}'>
     <view class='plan_item' wx:for='{{plan}}' wx:key='*key'>
