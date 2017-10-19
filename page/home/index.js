@@ -190,156 +190,21 @@ Page({
   //   })
   // },
 
-  //添加计划
-  add_plan: function (e) {
-    var self = this
-    var value = e.detail.value
-
-    if (!value || value == '') {
-      wx.showToast({
-        title: '请输入内容!',
-      })
-
-      return;
-    }
-
-    var item = { checked: false, value: value }
-    wx.getStorage({
-      key: constants.STORAGE_PLAN_LIST,
-      success: function (res) {
-        var list = res.data;
-        if (!list) {
-          list = [];
-        }
-        list.push(item);
-
-        wx.setStorage({
-          key: constants.STORAGE_PLAN_LIST,
-          data: list,
-        })
-        self.setData({ inputValue: '', plan: list })
-      },
-      fail: function (res) {
-        var list = []
-        list.push(item);
-
-        wx.setStorage({
-          key: constants.STORAGE_PLAN_LIST,
-          data: list,
-        })
-        self.setData({ inputValue: '', plan: list })
-      },
-      complete: function (res) {
-      }
+  formSubmit: function (e) {
+   wx.showModal({
+     title: '表单提交了',
+     content: '',
+     showCancel: false
+   })
+    console.log('form发生了submit事件，携带数据为：', e.detail.value)
+  },
+  formReset: function () {
+    console.log('form发生了reset事件')
+    wx.showModal({
+      title: '表单重置了',
+      content: '',
+      showCancel:false
     })
-  },
-
-
-  //单选按钮选择事件
-  change: function (e) {
-    var index = e.currentTarget.id
-    var self = this
-    var plan = self.data.plan
-    if (plan && plan.length > 0) {
-      var item = plan[index]
-      var value = item.checked
-      item.checked = !value
-      self.setData({ plan: plan })
-    }
-  },
-
-  //全选按钮
-  selectAll: function (e) {
-    var self = this
-    var plan = self.data.plan
-    if (plan && plan.length > 0) {
-      for (var i = 0; i < plan.length; i++) {
-        var item = plan[i]
-        var value = item.checked
-        item.checked = true
-      }
-      self.setData({ plan: plan })
-    }
-  },
-
-  //删除计划
-  delete_plan: function (e) {
-    var self = this
-    var plan = self.data.plan
-    if (plan && plan.length > 0) {
-      for (var i = 0; i < plan.length; i++) {
-        var item = plan[i]
-        var value = item.checked
-        if (value) {
-          plan.splice(i, 1)
-          i--
-        }
-      }
-      wx.setStorage({
-        key: constants.STORAGE_PLAN_LIST,
-        data: plan,
-      })
-      self.setData({ plan: plan })
-    }
-  },
-
-  //STORAGE_PLAN_HISTORY
-  //设置计划为完成状态
-  setFinish: function (e) {
-    var self = this
-    var plan = self.data.plan
-    var history = []
-    if (plan && plan.length > 0) {
-      for (var i = 0; i < plan.length; i++) {
-        var item = plan[i]
-        var value = item.checked
-        if (value) {
-          history.push(item)
-          plan.splice(i, 1)
-          i--
-        }
-      }
-      wx.setStorage({
-        key: constants.STORAGE_PLAN_LIST,
-        data: plan,
-      })
-      self.setData({ plan: plan })
-
-      //把删除的计划添加到历史记录中
-      if (history && history.length > 0) {
-        wx.getStorage({
-          key: constants.STORAGE_PLAN_HISTORY,
-          success: function (res) {
-            var list = res.data
-            if (!list) {
-              list = []
-            }
-            for (var i = 0; i < history.length; i++) {
-              var item = history[i]
-              list.push(item)
-            }
-
-            wx.setStorage({
-              key: constants.STORAGE_PLAN_HISTORY,
-              data: list,
-            })
-          },
-          fail: function (res) {
-            var list = []
-            for (var i = 0; i < history.length; i++) {
-              var item = history[i]
-              list.push(item)
-            }
-
-            wx.setStorage({
-              key: constants.STORAGE_PLAN_HISTORY,
-              data: list,
-            })
-          }
-        })
-      }
-    }
   }
-
 
 });

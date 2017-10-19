@@ -12,7 +12,10 @@ Page({
     thirdSession: '',
     categories: [],
     inputValue: '',
-    permissions: ''
+    permissions: '',
+    iconType: [
+      'success', 'success_no_circle', 'info', 'warn', 'waiting', 'cancel', 'download', 'search', 'clear'
+    ]
   },
 
   /**
@@ -191,51 +194,14 @@ Page({
 
 
 
-  //清空历史
-  clear: function (e) {
+  //显示图标名称
+  showType:function(e){
     var self = this
-    wx.showModal({
-      title: '确定要清空历史吗?',
-      content: '',
-      confirmText: '确定',
-      cancelText: '不了',
-      confirmColor: '#f00',
-      cancelColor: '#3CC51F',
-      success: function (res) {
-        if (res.confirm) {
-          wx.setStorage({
-            key: constants.STORAGE_PLAN_HISTORY,
-            data: [],
-          })
-          self.setData({ history: [] })
-        }
-      }
-    })
-  },
-
-  delete: function (e) {
     var index = e.currentTarget.id
-    var self = this
-    var history = self.data.history
-    if (history && history.length > 0) {
-      wx.showModal({
-        title: '确定要删除吗?',
-        content: '',
-        confirmText: '确定',
-        cancelText: '不了',
-        confirmColor: '#f00',
-        cancelColor: '#3CC51F',
-        success: function (res) {
-          if (res.confirm) {
-            history.splice(index, 1)
-            wx.setStorage({
-              key: constants.STORAGE_PLAN_HISTORY,
-              data: history,
-            })
-            self.setData({ history: history })
-          }
-        }
-      })
-    }
+    var iconType = self.data.iconType[index]
+
+    wx.showToast({
+      title: String(iconType),
+    })
   }
 })

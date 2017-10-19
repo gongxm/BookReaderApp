@@ -34,14 +34,10 @@
   </view>
 </view>
 <view class='container' wx:else>
-  <text>已完成事项:</text>
-  <view class='history_container' wx:if='{{history.length>0}}'>
-    <view class='history_item' wx:for='{{history}}' wx:key='*key'>
-      <view>{{item.value}}</view>
-      <image src='../../images/error.png' id='{{index}}' class='img' bindtap='delete'></image>
-    </view>
-    <view class='control'>
-    <view class='ctl_bt' bindtap='clear'>清空历史</view>
-    </view>
+  <text>常用图标:</text>
+  <view class="group">
+    <block wx:for="{{iconType}}">
+      <icon id='{{index}}' type="{{item}}" style='margin:20px' size="40" bindtap='showType'/>
+    </block>
   </view>
 </view>

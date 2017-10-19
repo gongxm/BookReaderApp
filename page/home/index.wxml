@@ -14,20 +14,50 @@
   </view>
 </view>
 <view class='plan' wx:else>
-  <text>未完成事项:</text>
+  <text>按钮类组件:</text>
   <view class='add_container'>
-    <input bindconfirm='add_plan' value='{{inputValue}}' placeholder='添加计划' type='text' maxlength='30' confirm-type='done' confirm-hold='false' class='input_text'></input>
-  </view>
-  <view class='plan_container' wx:if='{{plan.length>0}}'>
-    <view class='plan_item' wx:for='{{plan}}' wx:key='*key'>
-      <radio bindtap='change' class='del_font' id='{{index}}' checked='{{item.checked}}' wx:if='{{item.checked}}'>{{item.value}}</radio>
-      <radio bindtap='change' id='{{index}}' checked='{{item.checked}}' wx:else>{{item.value}}</radio>
-    </view>
-    <view class='control'>
-    <view class='ctl_bt' bindtap='selectAll'>全选</view>
-    <view class='ctl_bt' bindtap='delete_plan'>删除</view>
-    <view class='ctl_bt' bindtap='setFinish'>完成</view>
-    </view>
+    <button type='default'>default按钮</button>
+    <button type='primary'>primary按钮</button>
+    <button type='warn'>warn按钮</button>
   </view>
 
+  <form bindsubmit="formSubmit" bindreset="formReset">
+    <view class="section section_gap">
+      <view class="section__title">开关</view>
+      <switch name="switch" />
+    </view>
+    <view class="section section_gap">
+      <view class="section__title">进度</view>
+      <slider name="slider" show-value></slider>
+    </view>
+
+    <view class="section">
+      <view class="section__title">输入框</view>
+      <input name="input" placeholder="请输入内容" />
+    </view>
+    <view class="section section_gap">
+      <view class='add_container' style='margin-top:20px'>
+        <text style='margin-right:20px'> 单选:</text>
+        <radio-group>
+          <radio>选项1</radio>
+          <radio>选项2</radio>
+          <radio>选项3</radio>
+        </radio-group>
+      </view>
+    </view>
+    <view class="section section_gap">
+      <view class='add_container' style='margin-top:20px'>
+        <text style='margin-right:20px'> 多选:</text>
+        <checkbox-group>
+          <checkbox>选项1</checkbox>
+          <checkbox>选项2</checkbox>
+          <checkbox>选项3</checkbox>
+        </checkbox-group>
+      </view>
+    </view>
+    <view class="btn-area" style='display:flex;margin-top:20px'>
+      <button formType="submit">表单提交</button>
+      <button formType="reset">重置表单</button>
+    </view>
+  </form>
 </view>
