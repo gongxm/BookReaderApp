@@ -13,9 +13,7 @@ Page({
     categories: [],
     inputValue: '',
     permissions: '',
-    iconType: [
-      'success', 'success_no_circle', 'info', 'warn', 'waiting', 'cancel', 'download', 'search', 'clear'
-    ]
+    logs: []
   },
 
   /**
@@ -42,6 +40,12 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
+    this.flushData()
+  },
+
+
+
+  flushData: function () {
     this.setData({
       thirdSession: app.globalData.userInfo.thirdSession,
       permissions: app.globalData.userInfo.permissions
@@ -50,25 +54,18 @@ Page({
       wx.setNavigationBarTitle({
         title: '在线书城',
       })
-      if(!hasLoadData){
+      if (!hasLoadData) {
         hasLoadData = true
         this.loadData()
       }
     } else {
-      var self = this
-      wx.getStorage({
-        key: constants.STORAGE_PLAN_HISTORY,
-        success: function (res) {
-          var list = res.data;
-          if (list && list.length > 0) {
-            self.setData({ history: list })
-          }
-
-        }
+      wx.setNavigationBarTitle({
+        title: '历史记录',
       })
+      var logs = wx.getStorageSync('callogs');
+      this.setData({ logs: logs })
     }
   },
-
 
 
   /**
@@ -190,18 +187,5 @@ Page({
         url: './categoryList/categoryList?category=搜索结果&keyword=' + value + '&type=' + constants.CATEGORY_TYPE_SEARCH,
       })
     }
-  },
-
-
-
-  //显示图标名称
-  showType:function(e){
-    var self = this
-    var index = e.currentTarget.id
-    var iconType = self.data.iconType[index]
-
-    wx.showToast({
-      title: String(iconType),
-    })
   }
 })

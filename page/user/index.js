@@ -34,6 +34,10 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
+    this.flushData()
+  },
+
+  flushData: function () {
     if (!this.data.thirdSession) {
       this.setData({
         thirdSession: app.globalData.userInfo.thirdSession,

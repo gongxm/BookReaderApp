@@ -1,13 +1,13 @@
-<view wx:if="{{permissions=='USER'}}">
-
-  <view class='loading' wx:if='{{loading}}'>
-    <image src='../../images/loading.gif' mode='aspectFit'></image>
-  </view>
-  <view class="container" wx:else>
-    <view>
-      <input class='search' value='{{inputValue}}' placeholder='搜索: 输入书名或作者名' type='text' maxlength='30' confirm-type='search' confirm-hold='false' bindconfirm='search'></input>
+<view wx:if='{{thirdSession}}'>
+  <view wx:if="{{permissions=='USER'}}">
+    <view class='loading' wx:if='{{loading}}'>
+      <image src='../../images/loading.gif' mode='aspectFit'></image>
     </view>
-    <view class="weui-panel-bd" wx:if="{{thirdSession != ''}}">
+    <view class="container" wx:else>
+      <view>
+        <input class='search' value='{{inputValue}}' placeholder='搜索: 输入书名或作者名' type='text' maxlength='30' confirm-type='search' confirm-hold='false' bindconfirm='search'></input>
+      </view>
+
       <view wx:if="{{categories.length==0}}">
         <view class="center gray-color tips-size">没有数据,请重试!</view>
       </view>
@@ -18,26 +18,25 @@
         </view>
 
       </view>
-    </view>
 
-    <view wx:else>
-      <view bindtap="openUserInfoSetting" class="weui-media-box weui-media-box-appmsg" hover-class="weui-cell-active">
-        <view class="weui-media-box-hd weui-media-box-hd-in-appmsg">
-          <image class="weui-media-box-thumb" src="../../images/plus.png" mode="aspectFill" />
-        </view>
-        <view class="weui-media-box-bd weui-media-box-bd-in-appmsg">
-          <view class="weui-media-box-title">授权登录</view>
-        </view>
-      </view>
     </view>
-
+  </view>
+  <view class='container' wx:else>
+    <view class="content">
+      <image class="main-bg" src="../asserts/img/bg.png"></image>
+      <block wx:for="{{logs}}" wx:key='*key'>
+        <view class="item">{{item}}</view>
+      </block>
+    </view>
   </view>
 </view>
-<view class='container' wx:else>
-  <text>常用图标:</text>
-  <view class="group">
-    <block wx:for="{{iconType}}">
-      <icon id='{{index}}' type="{{item}}" style='margin:20px' size="40" bindtap='showType'/>
-    </block>
+<view wx:else>
+  <view bindtap="openUserInfoSetting" class="weui-media-box weui-media-box-appmsg" hover-class="weui-cell-active">
+    <view class="weui-media-box-hd weui-media-box-hd-in-appmsg">
+      <image class="weui-media-box-thumb" src="../../images/plus.png" mode="aspectFill" />
+    </view>
+    <view class="weui-media-box-bd weui-media-box-bd-in-appmsg">
+      <view class="weui-media-box-title">授权登录</view>
+    </view>
   </view>
 </view>

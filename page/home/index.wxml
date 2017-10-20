@@ -1,63 +1,66 @@
-<view wx:if="{{permissions=='USER'}}">
-  <view wx:if="{{books.length==0}}">
-    <view class="center gray-color tips-size">还没有加入任何书籍,快去书城看看吧</view>
+<view wx:if='{{thirdSession}}'>
+  <view wx:if="{{permissions=='USER'}}">
+    <view wx:if="{{books.length==0}}">
+      <view class="center gray-color tips-size">还没有加入任何书籍,快去书城看看吧</view>
+    </view>
+    <view wx:else>
+      <view class="mygrid" wx:for="{{books}}" id="{{index}}" bindtap='readBook' bindlongpress='delete' wx:key="*key">
+        <view class="myipic">
+          <image src=" {{item.cover}}" mode="scaleToFill" />
+        </view>
+        <text class="title">{{item.book_name}}</text>
+      </view>
+    </view>
+    <view class="container">
+    </view>
   </view>
   <view wx:else>
-    <view class="mygrid" wx:for="{{books}}" id="{{index}}" bindtap='readBook' bindlongpress='delete' wx:key="*key">
-      <view class="myipic">
-        <image src=" {{item.cover}}" mode="scaleToFill" />
+    <view class="content">
+      <image class="main-bg" src="../asserts/img/bg.png"></image>
+      <view class="screen-container">
+        <view class="screen">
+          {{screenData}}
+        </view>
       </view>
-      <text class="title">{{item.book_name}}</text>
+      <view class="btnGroup">
+        <view class="item orange" bindtap="clickButton" id="{{id1}}">退格</view>
+        <view class="item orange" bindtap="clickButton" id="{{id2}}">清屏</view>
+        <view class="item orange" bindtap="clickButton" id="{{id3}}">+/-</view>
+        <view class="item orange" bindtap="clickButton" id="{{id4}}">+ </view>
+      </view>
+      <view class="btnGroup">
+        <view class="item blue" bindtap="clickButton" id="{{id5}}">9</view>
+        <view class="item blue" bindtap="clickButton" id="{{id6}}">8</view>
+        <view class="item blue" bindtap="clickButton" id="{{id7}}">7</view>
+        <view class="item orange" bindtap="clickButton" id="{{id8}}">-</view>
+      </view>
+      <view class="btnGroup">
+        <view class="item blue" bindtap="clickButton" id="{{id9}}">6</view>
+        <view class="item blue" bindtap="clickButton" id="{{id10}}">5</view>
+        <view class="item blue" bindtap="clickButton" id="{{id11}}">4</view>
+        <view class="item orange" bindtap="clickButton" id="{{id12}}">×</view>
+      </view>
+      <view class="btnGroup">
+        <view class="item blue" bindtap="clickButton" id="{{id13}}">3</view>
+        <view class="item blue" bindtap="clickButton" id="{{id14}}">2</view>
+        <view class="item blue" bindtap="clickButton" id="{{id15}}">1</view>
+        <view class="item orange" bindtap="clickButton" id="{{id16}}">÷</view>
+      </view>
+      <view class="btnGroup">
+        <view class="item blue" bindtap="clickButton" id="{{id17}}">0</view>
+        <view class="item blue" bindtap="clickButton" id="{{id18}}">.</view>
+        <view class="item orange eq" bindtap="clickButton" id="{{id20}}">=</view>
+      </view>
     </view>
-  </view>
-  <view class="container">
   </view>
 </view>
-<view class='plan' wx:else>
-  <text>按钮类组件:</text>
-  <view class='add_container'>
-    <button type='default'>default按钮</button>
-    <button type='primary'>primary按钮</button>
-    <button type='warn'>warn按钮</button>
+<view wx:else>
+  <view bindtap="openUserInfoSetting" class="weui-media-box weui-media-box-appmsg" hover-class="weui-cell-active">
+    <view class="weui-media-box-hd weui-media-box-hd-in-appmsg">
+      <image class="weui-media-box-thumb" src="../../images/plus.png" mode="aspectFill" />
+    </view>
+    <view class="weui-media-box-bd weui-media-box-bd-in-appmsg">
+      <view class="weui-media-box-title">授权登录</view>
+    </view>
   </view>
-
-  <form bindsubmit="formSubmit" bindreset="formReset">
-    <view class="section section_gap">
-      <view class="section__title">开关</view>
-      <switch name="switch" />
-    </view>
-    <view class="section section_gap">
-      <view class="section__title">进度</view>
-      <slider name="slider" show-value></slider>
-    </view>
-
-    <view class="section">
-      <view class="section__title">输入框</view>
-      <input name="input" placeholder="请输入内容" />
-    </view>
-    <view class="section section_gap">
-      <view class='add_container' style='margin-top:20px'>
-        <text style='margin-right:20px'> 单选:</text>
-        <radio-group>
-          <radio>选项1</radio>
-          <radio>选项2</radio>
-          <radio>选项3</radio>
-        </radio-group>
-      </view>
-    </view>
-    <view class="section section_gap">
-      <view class='add_container' style='margin-top:20px'>
-        <text style='margin-right:20px'> 多选:</text>
-        <checkbox-group>
-          <checkbox>选项1</checkbox>
-          <checkbox>选项2</checkbox>
-          <checkbox>选项3</checkbox>
-        </checkbox-group>
-      </view>
-    </view>
-    <view class="btn-area" style='display:flex;margin-top:20px'>
-      <button formType="submit">表单提交</button>
-      <button formType="reset">重置表单</button>
-    </view>
-  </form>
 </view>

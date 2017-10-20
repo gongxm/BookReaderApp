@@ -50,11 +50,11 @@ App({
           self.globalData.userInfo.country = res.data.country
           self.globalData.userInfo.avatarUrl = res.data.avatarUrl
         } else {
-          self.login(null);
+          self.login();
         }
       },
       fail: function (res) {//未登录，引导登录
-        self.login(null)
+        self.login()
       },
       complete:function(res){
       }
@@ -64,8 +64,7 @@ App({
   /**
    * 登陆
    */
-  login: function (page) {
-
+  login: function () {
     var self = this
     if (!isLogin) {
       isLogin = true
@@ -91,7 +90,7 @@ App({
                 if (res.data.errcode == 1) {
                   var thirdSession = res.data.thirdSession
                   //获取用户信息并保存到服务器
-                  self.saveUserInfo(thirdSession, page);
+                  self.saveUserInfo(thirdSession);
                 } else {
                   wx.showToast({
                     title: constants.LOGIN_FAIL,
@@ -130,7 +129,7 @@ App({
   /**
    * 请求微信个人信息接口,上传用户信息到服务器
    */
-  saveUserInfo: function (thirdSession, page) {
+  saveUserInfo: function (thirdSession) {
     var self = this
 
     wx.getUserInfo({
@@ -149,7 +148,7 @@ App({
           },
           success: function (res) {
             if (res.data.errcode == 1) {
-              self.getUserInfo(thirdSession, page);
+              self.getUserInfo(thirdSession);
             } else {
               wx.showToast({
                 title: constants.USER_INFO_ERROR,
@@ -190,7 +189,7 @@ App({
 
 
   //获取服务器上的用户信息
-  getUserInfo: function (thirdSession, page) {
+  getUserInfo: function (thirdSession) {
     var self = this
 
     wx.request({
@@ -214,18 +213,15 @@ App({
           self.globalData.userInfo.province = res.data.province
           self.globalData.userInfo.country = res.data.country
           self.globalData.userInfo.avatarUrl = res.data.avatarUrl
-
           //把用户信息缓存到本地
           wx.setStorage({
             key: constants.STORAGE_USERINFO,
             data: self.globalData.userInfo
           })
 
-          if (page != null) {
-            page.setData({
-              thirdSession: self.globalData.userInfo.thirdSession,
-              userInfo: self.globalData.userInfo
-            })
+          var pages = getCurrentPages()
+          if(pages&&pages.length>0){
+            pages[0].flushData()
           }
         } else {
           wx.showToast({
