@@ -30,7 +30,8 @@ Page({
    * 生命周期函数--监听页面初次渲染完成
    */
   onReady: function () {
-    if (app.globalData.userInfo.permissions == 'USER') {
+
+    if (app.globalData.userInfo.permissions != 'TEST') {
       hasLoadData = true
       this.loadData()
     }
@@ -50,20 +51,23 @@ Page({
       thirdSession: app.globalData.userInfo.thirdSession,
       permissions: app.globalData.userInfo.permissions
     })
-    if (app.globalData.userInfo.permissions == 'USER') {
-      wx.setNavigationBarTitle({
-        title: '在线书城',
-      })
-      if (!hasLoadData) {
-        hasLoadData = true
-        this.loadData()
+
+    if (app.globalData.userInfo.thirdSession) {
+      if (app.globalData.userInfo.permissions == 'TEST') {
+        wx.setNavigationBarTitle({
+          title: '历史记录',
+        })
+        var logs = wx.getStorageSync('callogs');
+        this.setData({ logs: logs })
+      } else {
+        wx.setNavigationBarTitle({
+          title: '在线书城',
+        })
+        if (!hasLoadData) {
+          hasLoadData = true
+          this.loadData()
+        }
       }
-    } else {
-      wx.setNavigationBarTitle({
-        title: '历史记录',
-      })
-      var logs = wx.getStorageSync('callogs');
-      this.setData({ logs: logs })
     }
   },
 

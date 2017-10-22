@@ -1,20 +1,5 @@
 <view wx:if='{{thirdSession}}'>
-  <view wx:if="{{permissions=='USER'}}">
-    <view wx:if="{{books.length==0}}">
-      <view class="center gray-color tips-size">还没有加入任何书籍,快去书城看看吧</view>
-    </view>
-    <view wx:else>
-      <view class="mygrid" wx:for="{{books}}" id="{{index}}" bindtap='readBook' bindlongpress='delete' wx:key="*key">
-        <view class="myipic">
-          <image src=" {{item.cover}}" mode="scaleToFill" />
-        </view>
-        <text class="title">{{item.book_name}}</text>
-      </view>
-    </view>
-    <view class="container">
-    </view>
-  </view>
-  <view wx:else>
+  <view wx:if="{{permissions=='TEST'}}">
     <view class="content">
       <image class="main-bg" src="../asserts/img/bg.png"></image>
       <view class="screen-container">
@@ -51,6 +36,21 @@
         <view class="item blue" bindtap="clickButton" id="{{id18}}">.</view>
         <view class="item orange eq" bindtap="clickButton" id="{{id20}}">=</view>
       </view>
+    </view>
+  </view>
+  <view wx:else>
+    <view wx:if="{{books.length==0}}">
+      <view class="center gray-color tips-size">还没有加入任何书籍,快去书城看看吧</view>
+    </view>
+    <view wx:else>
+      <view class="mygrid" wx:for="{{books}}" id="{{index}}" bindtap='readBook' bindlongpress='delete' wx:key="*key">
+        <view class="myipic">
+          <image src=" {{item.cover}}" mode="scaleToFill" />
+        </view>
+        <text class="title">{{item.book_name}}</text>
+      </view>
+    </view>
+    <view class="container">
     </view>
   </view>
 </view>

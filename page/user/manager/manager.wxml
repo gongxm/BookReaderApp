@@ -1,0 +1,25 @@
+<!--page/user/manager/manager.wxml-->
+<view class='loading' wx:if='{{loading}}'>
+  <image src='../../../images/loading.gif' mode='aspectFit'></image>
+</view>
+<view class="container" wx:else>
+  <view wx:for="{{list}}" wx:key="*key">
+    <view class="user-container">
+      <view class="weui-media-box-hd weui-media-box-hd-in-appmsg center">
+        <view wx:if="{{item.avatarUrl}}">
+          <image class="weui-media-box-thumb" style="border-radius: 60rpx;width: 120rpx;height: 120rpx;" src="{{item.avatarUrl}}" mode="aspectFill" />
+        </view>
+        <view wx:else>
+          <image class="weui-media-box-thumb" style="border-radius: 60rpx;width: 120rpx;height: 120rpx;" src="../../../images/user_selected.png" mode="aspectFill" />
+        </view>
+      </view>
+
+      <view class='bt' wx:if="{{item.permissions!='ROOT'}}" id='{{index}}' bindtap='changePermissions'>切换权限</view>
+      <view class='text-container'>
+        <view class='text-item'>用户名:{{item.username}}</view>
+        <view class='text-item'>权限:{{item.permissions}}</view>
+        <view class='text-item'>注册时间:{{item.registTime}}</view>
+      </view>
+    </view>
+  </view>
+</view>

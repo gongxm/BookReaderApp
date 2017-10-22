@@ -1,0 +1,33 @@
+/* page/user/manager/manager.wxss */
+
+.user-container {
+  display: flex;
+  border: 1px dotted #ff8719;
+}
+
+
+.text-container {
+  display: block;
+}
+
+.text-item {
+  size: 12px;
+}
+
+.center{
+  margin-top: 8px;
+  margin-left: 5px;
+}
+
+.bt{
+  position: absolute;
+  margin-top: 3px;
+  right: 5px;
+  background: #ccc;
+  border-radius: 5px;
+
+}
+
+.bt:active{
+    background: #888;
+}

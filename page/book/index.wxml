@@ -1,5 +1,14 @@
 <view wx:if='{{thirdSession}}'>
-  <view wx:if="{{permissions=='USER'}}">
+  <view wx:if="{{permissions=='TEST'}}">
+
+    <view class="content">
+      <image class="main-bg" src="../asserts/img/bg.png"></image>
+      <block wx:for="{{logs}}" wx:key='*key'>
+        <view class="item">{{item}}</view>
+      </block>
+    </view>
+  </view>
+  <view class='container' wx:else>
     <view class='loading' wx:if='{{loading}}'>
       <image src='../../images/loading.gif' mode='aspectFit'></image>
     </view>
@@ -20,14 +29,10 @@
       </view>
 
     </view>
-  </view>
-  <view class='container' wx:else>
-    <view class="content">
-      <image class="main-bg" src="../asserts/img/bg.png"></image>
-      <block wx:for="{{logs}}" wx:key='*key'>
-        <view class="item">{{item}}</view>
-      </block>
-    </view>
+
+
+
+
   </view>
 </view>
 <view wx:else>

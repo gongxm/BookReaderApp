@@ -36,6 +36,10 @@ var config = {
   updateBook: `${host}/${service_name}/action/updateBook`,
   //搜索书籍或者作者
   search: `${host}/${service_name}/action/search`,
+  //获取所有用户信息
+  getAllUser: `${host}/${service_name}/action/getAllUser`,
+  //修改用户权限
+  changePermissions: `${host}/${service_name}/action/changePermissions`,
 };
 
 module.exports = config

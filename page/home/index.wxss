@@ -114,5 +114,5 @@ position:relative;
 }
 
 .eq{
-  width:172px;
+  width:345rpx;
 }

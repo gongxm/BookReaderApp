@@ -1,7 +1,7 @@
 
 <view class="page">
   <view class="page-bd">
-    <view class="weui-panel weui-panel-access">
+    <view class="weui-panel-access background">
       <view bindtap="navigate" class="weui-panel-bd" wx:if="{{thirdSession != ''}}">
         <view class="weui-media-box weui-media-box-appmsg" hover-class="weui-cell-active">
           <view class="weui-media-box-hd weui-media-box-hd-in-appmsg">
@@ -15,7 +15,7 @@
           </view>
         </view>
 
-        <view bindtap="navigateToTechnicianWallet" class="weui-cell weui-cell-access" hover-class="weui-cell-active">
+        <view class="weui-cell weui-cell-access" hover-class="weui-cell-active">
           <view class="weui-cell-hd">
             <image src="{{icon}}" style="width: 28px;height: 28px;margin-right: 16px;vertical-align: middle;" />
           </view>
@@ -26,7 +26,7 @@
         </view>
 
 
-        <view bindtap="navigateToTechnicianWallet" class="weui-cell weui-cell-access" hover-class="weui-cell-active">
+        <view class="weui-cell weui-cell-access" hover-class="weui-cell-active">
           <view class="weui-cell-hd">
             <image src="{{icon}}" style="width: 28px;height: 28px;margin-right: 16px;vertical-align: middle;" />
           </view>
@@ -37,7 +37,7 @@
         </view>
 
 
-        <view bindtap="navigateToTechnicianWallet" class="weui-cell weui-cell-access" hover-class="weui-cell-active">
+        <view class="weui-cell weui-cell-access" hover-class="weui-cell-active">
           <view class="weui-cell-hd">
             <image src="{{icon}}" style="width: 28px;height: 28px;margin-right: 16px;vertical-align: middle;" />
           </view>
@@ -47,6 +47,18 @@
           <view class="weui-cell-ft weui-cell-ft-in-access"></view>
         </view>
 
+
+        <view bindtap='manager' class="weui-cell weui-cell-access" hover-class="weui-cell-active" wx:if="{{userInfo.permissions=='ROOT'}}">
+          <view class="weui-cell-hd">
+            <image src="{{icon}}" style="width: 28px;height: 28px;margin-right: 16px;vertical-align: middle;" />
+          </view>
+          <view class="weui-cell-bd weui-cell-primary">
+            <view>管理用户</view>
+          </view>
+          <view class="weui-cell-ft weui-cell-ft-in-access"></view>
+        </view>
+
+        <view class="weui-cell weui-cell-access" hover-class="weui-cell-active"></view>
 
       </view>
       <view wx:else>

@@ -30,8 +30,9 @@ Page({
     id20: "=",
     screenData: "0",
     lastIsOperator: false,
-    lastIsEq:false,
-    lastIsPoint:false,
+    lastIsEq: false,
+    lastIsPoint: false,
+    lastIsNum: false,
     logs: []
   },
 
@@ -57,20 +58,23 @@ Page({
   },
 
 
-  flushData:function(){
+  flushData: function () {
     this.setData({
       thirdSession: app.globalData.userInfo.thirdSession,
       permissions: app.globalData.userInfo.permissions
     })
-    if (app.globalData.userInfo.permissions == 'USER') {
-      wx.setNavigationBarTitle({
-        title: '阅读窝',
-      })
-      this.loadData()
-    } else {
-      wx.setNavigationBarTitle({
-        title: '计算器',
-      })
+
+    if (app.globalData.userInfo.thirdSession) {
+      if (app.globalData.userInfo.permissions == 'TEST') {
+        wx.setNavigationBarTitle({
+          title: '计算器',
+        })
+      } else {
+        wx.setNavigationBarTitle({
+          title: '阅读窝',
+        })
+        this.loadData()
+      }
     }
   },
 
@@ -204,7 +208,7 @@ Page({
 
   },
 
-  // ==================================================
+  // ===================计算器逻辑===============================
 
 
   clickButton: function (event) {
@@ -213,32 +217,38 @@ Page({
 
     var lastIsEq = this.data.lastIsEq
 
-    if(lastIsEq){
+    if (lastIsEq) {
       data = 0;
     }
-   
-    if (id == this.data.id1) {
+
+    if (id == this.data.id1) {  //back
       if (data == 0) {
         return;
       }
       var data = data.substring(0, data.length - 1);
-    } else if (id == this.data.id2) {
+    } else if (id == this.data.id2) { //clear
       data = 0;
       this.setData({
         lastIsOperator: false,
         lastIsEq: false,
-        lastIsPoint: false})
-    } else if (id == this.data.id3) {
+        lastIsPoint: false
+      })
+    } else if (id == this.data.id3) {  // +/-
       var firstWord = data.substring(0, 1);
       if (firstWord != '-') {
         data = '-' + data;
       } else {
         data = data.substring(1);
       }
-    } else if (id == this.data.id20) {
+    } else if (id == this.data.id20) {// =
       if (data == 0) {
         return;
       }
+
+      if (this.data.lastIsPoint && !this.data.lastIsNum) {
+        data = data + '0'
+      }
+
       var lastWord = data.substring(data.length - 1, data.length);
       if (isNaN(lastWord)) {
         return;
@@ -251,8 +261,8 @@ Page({
       log = log + '=' + data;
       this.data.logs.push(log);
       wx.setStorageSync('callogs', this.data.logs);
-      
-      this.setData({ lastIsEq: true, lastIsPoint: false });
+
+      this.setData({ lastIsEq: true, lastIsPoint: false, lastIsNum: true });
     } else {
       if (id == this.data.id4 || id == this.data.id8 || id == this.data.id12 || id == this.data.id16) {
         if (this.data.lastIsOperator || data == 0) {
@@ -261,14 +271,28 @@ Page({
       }
 
 
-      if (id == this.data.id18){
-        if (this.data.lastIsPoint){
+      if (id == this.data.id18) {
+        if (this.data.lastIsPoint) {
           return;
         }
-        this.setData({ lastIsPoint:true})
-        if (this.data.lastIsOperator){
+        this.setData({ lastIsPoint: true, lastIsNum: false })
+        if (this.data.lastIsOperator) {
           data = data + '0'
         }
+      } else if (id == this.data.id5 || id == this.data.id6 || id == this.data.id7 ||
+        id == this.data.id9 || id == this.data.id10 || id == this.data.id11 ||
+        id == this.data.id13 || id == this.data.id14 || id == this.data.id15) {
+        this.setData({ lastIsNum: true })
+      }
+
+
+      if (id == this.data.id4 || id == this.data.id8 || id == this.data.id12 || id == this.data.id16) {
+        if (this.data.lastIsPoint && !this.data.lastIsNum) {
+          data = data + '0'
+        }
+        this.setData({ lastIsOperator: true, lastIsPoint: false });
+      } else {
+        this.setData({ lastIsOperator: false })
       }
 
       if (data == 0) {
@@ -276,15 +300,10 @@ Page({
       } else {
         data = data + id
       }
-      if (id == this.data.id4 || id == this.data.id8 || id == this.data.id12 || id == this.data.id16) {
-        this.setData({ lastIsOperator: true, lastIsPoint: false});
-      } else {
-        this.setData({ lastIsOperator: false })
-      }
     }
     if (id != this.data.id20) {
       this.setData({ lastIsEq: false });
-    } 
+    }
 
 
     this.setData({

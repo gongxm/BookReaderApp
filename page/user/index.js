@@ -38,12 +38,10 @@ Page({
   },
 
   flushData: function () {
-    if (!this.data.thirdSession) {
-      this.setData({
-        thirdSession: app.globalData.userInfo.thirdSession,
-        userInfo: app.globalData.userInfo
-      })
-    }
+    this.setData({
+      thirdSession: app.globalData.userInfo.thirdSession,
+      userInfo: app.globalData.userInfo
+    })
   },
 
 
@@ -91,4 +89,12 @@ Page({
   onPullDownRefresh: function () {
     app.login(this)
   },
+
+
+  //跳转到用户管理界面
+  manager: function (e) {
+    wx.navigateTo({
+      url: './manager/manager',
+    })
+  }
 })
