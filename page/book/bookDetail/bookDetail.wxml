@@ -3,20 +3,74 @@
   <view class="center gray-color tips-size">正在加载数据...</view>
 </view>
 <view class="container" wx:elif='{{book}}'>
-  <view class='mygrid'>
-    <image src="{{book.cover}}" class="book-cover" />
-    <view class="book-title">{{book.book_name}}</view>
+
+  <!-- 书籍信息 -->
+  <view class='book-info-box'>
+    <view class='grid'>
+      <image src="{{book.cover}}" class="book-cover" />
+    </view>
+    <view class="book-title font-14-size">{{book.book_name}}</view>
+    <view class="book-author font-14-size color-author">作者: {{book.author}}</view>
+    <view class="book-font-item book-color-item">类型: {{book.category}}</view>
+    <view class="book-font-item book-color-item">状态: {{book.status}}</view>
+    <view class="book-font-item book-red-item">章节数量: {{book.chapterCount}}</view>
+    <view class="book-font-item book-color-item">更新时间: {{book.lastUpdate}}</view>
+    <view class="book-font-item book-red-item">最新章节: {{book.lastChapter}}</view>
   </view>
-  <view class="book-author">作者: {{book.author}}</view>
-  <view>简介:</view>
-  <text class="book-shortIntroduce" decode="{{true}}">{{book.shortIntroduce}}</text>
+
+  <!-- 按钮区 -->
   <view class='button_box'>
-    <view id="{{index}}" bindtap="addToBookCase" class="button button-green" hover-class="weui-form-preview-btn-active" hover-stay-time="100" wx:if="{{exists==false}}">加入书架</view>
-    <view id="{{index}}" bindtap="removeFromBookCase" class="button button-gray" hover-class="weui-form-preview-btn-active" hover-stay-time="100" wx:if="{{exists}}">移出书架</view>
-    <view id="{{index}}" class="button button-red" bindtap='startRead' hover-class="weui-form-preview-btn-active" hover-stay-time="100">开始阅读</view>
+    <view id="{{index}}" bindtap="addToBookCase" class="button button-green font-14-size" hover-class="weui-form-preview-btn-active" hover-stay-time="100" wx:if="{{exists==false}}">加入书架</view>
+    <view id="{{index}}" bindtap="removeFromBookCase" class="button button-gray font-14-size" hover-class="weui-form-preview-btn-active" hover-stay-time="100" wx:if="{{exists}}">移出书架</view>
+    <view id="{{index}}" class="button button-red font-14-size" bindtap='startRead' hover-class="weui-form-preview-btn-active" hover-stay-time="100">开始阅读</view>
   </view>
+
+  <!-- 简介 -->
+  <view class='short-info font-14-size'>作品简介:</view>
+  <text class="book-shortIntroduce" decode="{{true}}">{{book.shortIntroduce}}</text>
+
+
+  <!-- 作者作品 -->
+  <view wx:if="{{books.length!=0}}">
+    <view class='author-view'>
+      <image src='../../../images/author.png' class='author-img'></image>
+      <view class='font-14-size author-text'>{{book.author}} 还写过</view>
+    </view>
+    <view wx:for="{{books}}" id="{{index}}" bindtap="navigateToBook" wx:key="books">
+      <view class="weui-media-box weui-media-box-appmsg" style="border-bottom: 1rpx solid #E5E5E5;" hover-class="weui-cell-active">
+        <view class="weui-media-box-hd weui-media-box-hd-in-appmsg">
+          <image class="weui-media-box-thumb" style="border-radius: 60rpx;width: 120rpx;height: 120rpx;" src="{{item.cover}}" mode="aspectFill" />
+        </view>
+        <view class="weui-media-box-bd">
+          <view class="book-title">{{item.book_name}}</view>
+          <view class="book-font-item book-color-item">{{item.author}}</view>
+          <view class="book-font-item book-color-item">{{item.lastChapter}}</view>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 推荐 -->
+  <view wx:if="{{recommend.length!=0}}" class='recommend'>
+
+    <view>同类推荐</view>
+    <view class="mygrid" wx:for="{{recommend}}" id="{{index}}" bindtap='navigateToRecommendBook' wx:key="recommend">
+      <view class="myipic">
+        <image src=" {{item.cover}}" mode="scaleToFill" />
+      </view>
+      <text class="title">{{item.book_name}}</text>
+    </view>
+    <view class='line2'></view>
+  </view>
+
 </view>
+
+<!-- 数据加载失败 -->
 <view wx:else>
   <view class="center gray-color tips-size">没有数据!</view>
 </view>
+
+<!-- 书架按钮 -->
 <view class='home-button' bindtap='go_home'>书架</view>
+
+<view class='category-button' bindtap='go_category'>分类</view>

@@ -1,36 +1,10 @@
-.myipic {
-  width: 100px;
-  height: 120px;
-  margin: 0 auto;
-  margin-top: 5px;
-}
-
-.myipic image {
-  display: block;
-  width: 100%;
-  height: 100%;
-}
-
-.title {
-  display: block;
-  text-align: center;
-  font-weight: bold;
-  color: #000;
-  font-size: 14px;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-  overflow: hidden;
-}
-
 .mygrid {
-  /* 上右下左 */
-  margin: 10px 2px 0px 6px;
-  border: 1px #ececec double;
-  position: relative;
   float: left;
-  width: 30%;
-  text-align: center;
-  padding: 0px;
+  width: 29%;
+  position: relative;
+  padding-top: 40%;
+  margin: 6% 0 2% 3%;
+  border: 1px #ececec double;
   box-shadow: 5px 5px 7px rgba(22, 22, 22, 0.5);
 }
 
@@ -38,81 +12,205 @@
   background-color: #ececec;
 }
 
-.container {
+.myipic {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  overflow: hidden;
+}
+
+.image_cover {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.update {
+  position: absolute;
+  right: 0;
+  width: 50px;
+  height: 50px;
+  z-index: 888;
+}
+
+.title {
+  position: absolute;
+  width: 100%;
+  font-weight: bold;
+  margin-top: 5px;
+  text-align: center;
+  color: #000;
+  font-size: 12px;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
+/* .container {
   height: 15px;
   position: relative;
   float: left;
   width: 100%;
+} */
+
+.content {
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  box-sizing: border-box;
+  position: relative;
 }
 
-
-.content{
-min-height:100%;
-display:flex;
-flex-direction:column;
-align-items:center;
-box-sizing:border-box;
-position:relative;
-}
-.main-bg{
-    height:100%;
-    width:100%;
-    position:absolute;
-    top:0;
-    left:0;
-    z-index:-1;
-}
-.screen-container{
-    padding-top:30rpx;
-    padding-left:5rpx;
-    padding-right:5rpx;
-}
-.screen{
-    background-color:#fff;
-    border-radius:3px;
-    text-align:right;
-    width:720rpx;
-    height:100rpx;
-    line-height:100rpx;
-    padding-left:10rpx;
-    padding-right:10rpx;
-    margin-bottom:30rpx;
-
-}
-.btnGroup{
-    display:flex;
-    flex-direction:row;
-}
-.item{
-    width:160rpx;
-    min-height:10rpx;
-    margin:10rpx;
-    text-shadow:0 1px 1px rgba(0,0,0,.3);
-    border-radius:5px;
-    text-align:center;
-    line-height:150rpx;
-    display:inline-block;
+.main-bg {
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: -1;
 }
 
-.orange{
-    color:#fef4e9;
-    border:solid 1px #da7c0c;
-    background:#f78d1d;
-}
-.blue{
-    color:#d9eef7;
-    border:solid 1px #0076a3;
-    background:#0095cd;
+.screen-container {
+  padding-top: 30rpx;
+  padding-left: 5rpx;
+  padding-right: 5rpx;
 }
 
-.orange:active{
-   background:#f72d1d;
+.screen {
+  background-color: #fff;
+  border-radius: 3px;
+  text-align: right;
+  width: 720rpx;
+  height: 100rpx;
+  line-height: 100rpx;
+  padding-left: 10rpx;
+  padding-right: 10rpx;
+  margin-bottom: 30rpx;
 }
 
-.blue:active{
-   background:#0065fd;
+.btnGroup {
+  display: flex;
+  flex-direction: row;
 }
 
-.eq{
-  width:345rpx;
+.item {
+  width: 160rpx;
+  min-height: 10rpx;
+  margin: 10rpx;
+  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.3);
+  border-radius: 5px;
+  text-align: center;
+  line-height: 150rpx;
+  display: inline-block;
+}
+
+.orange {
+  color: #fef4e9;
+  border: solid 1px #da7c0c;
+  background: #f78d1d;
+}
+
+.blue {
+  color: #d9eef7;
+  border: solid 1px #0076a3;
+  background: #0095cd;
+}
+
+.orange:active {
+  background: #f72d1d;
+}
+
+.blue:active {
+  background: #0065fd;
+}
+
+.eq {
+  width: 345rpx;
+}
+
+.book-title {
+  display: block;
+  font-weight: bold;
+  text-align: left;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  margin-top: 10px;
+}
+
+.book-author {
+  padding-left: 5px;
+}
+
+.color-author {
+  color: #6495ed;
+}
+
+.author-img {
+  width: 24px;
+  height: 24px;
+  position: relative;
+  float: left;
+}
+
+.author-view {
+  padding-top: 10px;
+  width: 100%;
+  line-height: 24px;
+  vertical-align: middle;
+}
+
+.author-text {
+  width: 100%;
+  height: 24px;
+}
+
+.book-cover {
+  width: 100%;
+  height: 100%;
+}
+
+.book-font-item {
+  font-size: 13px;
+}
+
+.book-color-item {
+  color: #666;
+}
+
+.book-red-item {
+  color: red;
+}
+
+.book_padding {
+  padding-left: 100rpx;
+}
+
+.grid {
+  /* 上右下左 */
+  margin: 5px;
+  border: 1px #ececec double;
+  position: relative;
+  float: left;
+  width: 200rpx;
+  height: 250rpx;
+  padding: 0px;
+  text-align: center;
+  box-shadow: 5px 5px 7px rgba(22, 22, 22, 0.5);
+}
+
+.container {
+  flex-direction: column;
+  display: flex;
+  padding: 10px;
+  border-bottom: 1px #eee double;
 }

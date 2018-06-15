@@ -61,11 +61,15 @@
 }
 
 .top {
-  color: #ff8719;
+  color: #84868f;
   margin-left: 10px;
   display: -webkit-flex; /* Safari */
   display: flex;
   flex-direction: row;
+}
+
+.color_title {
+  color: #ff8719;
 }
 
 .show_top {
@@ -197,7 +201,7 @@
 }
 
 .setting_item {
-  width: 120rpx;
+  width: 110rpx;
   padding-top: 20rpx;
   text-align: center;
   height: 80rpx;
@@ -211,26 +215,30 @@
 .setting_item:active {
   background: #eee;
 }
- 
-  .font_size_sub {
+
+.font_size_sub {
   margin-left: 20rpx;
 }
-  
+
 .font_size_add {
-  margin-left: 166rpx;
+  margin-left: 140rpx;
 }
 
 .night {
-  margin-left: 312rpx;
+  margin-left: 260rpx;
 }
-  
+
 .book_store {
-  margin-left: 460rpx;
+  margin-left: 380rpx;
+}
+
+.store {
+  margin-left: 500rpx;
 }
 
 .list {
-  margin-left: 608rpx;
-}   
+  margin-left: 620rpx;
+}
 
 .page {
   width: 100%;

@@ -7,7 +7,9 @@
     "page/book/bookDetail/bookDetail",
     "page/book/bookChapterList/bookChapterList",
     "page/book/readView/readView",
-    "page/user/manager/manager"
+    "page/book/readFinish/readFinish",
+    "page/user/manager/manager",
+    "page/user/history/history"
   ],
   "window": {
     "navigationBarTextStyle": "white",

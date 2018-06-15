@@ -1,0 +1,43 @@
+<view wx:if='{{loading}}'>
+  <view class="center gray-color tips-size">正在加载数据...</view>
+</view>
+<view class wx:elif='{{books.length>0}}'>
+  <view class='title'>
+    <view class='title_text font_14_size'>大家都在看</view>
+    <view class='more font_14_size' bindtap='go_category'>更多</view>
+  </view>
+
+  <view class='container'>
+    <view class="mygrid" wx:for="{{books}}" id="{{index}}" bindtap='navigateToBook' wx:key="*key">
+      <view class="myipic">
+        <image src=" {{item.cover}}" mode="scaleToFill" />
+      </view>
+      <text class="book_title">{{item.book_name}}</text>
+    </view>
+  </view>
+
+  <view class='line1'></view>
+  <view class='title'>
+    <view class='title_text font_14_size'>推荐阅读</view>
+    <view class='more font_14_size' bindtap='change'>换一换</view>
+  </view>
+
+  <view class='container'>
+    <view class="mygrid" wx:for="{{recommend}}" id="{{index}}" bindtap='navigateToRecommendBook' wx:key="*key">
+      <view class="myipic">
+        <image src=" {{item.cover}}" mode="scaleToFill" />
+      </view>
+      <text class="book_title">{{item.book_name}}</text>
+    </view>
+  </view>
+  <view class='line2'></view>
+</view>
+<!-- 数据加载失败 -->
+<view wx:else>
+  <view class="center gray-color tips-size">没有数据!</view>
+</view>
+
+<view class='button_show'>
+  <button class='bt1' bindtap='go_home'>返回书架</button>
+  <button class='bt1' bindtap='go_category_list'>逛逛书城</button>
+</view>

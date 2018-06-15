@@ -1,3 +1,4 @@
+
 const getBookChapter = require('../../../config').getBookChapter
 const constants = require('../../../utils/constants')
 var app = getApp()
@@ -33,6 +34,7 @@ Page({
     var bookid = options.bookid
     var position = options.position
     var book_name = options.book_name
+    var category = options.category
 
     var self = this;
 
@@ -41,7 +43,8 @@ Page({
       chapter_name: chapter_name,
       bookid: bookid,
       position: position,
-      book_name: book_name
+      book_name: book_name,
+      category: category
     })
 
     //获取设置信息
@@ -99,25 +102,14 @@ Page({
       title: self.data.chapter_name
     })
 
-    wx.request({
-      url: getBookChapter,
-      data: {
-        id: self.data.chapterid
-      },
-      method: 'POST',
-      header: {
-        'content-type': 'application/json'
-      },
+
+
+    //优先从本地加载数据,加载不到再从网络加载
+    wx.getStorage({
+      key: self.data.chapterid,
       success: function (res) {
-        if (res.data.errcode == 1) {
-          var content = res.data.result
-          self.setData({ loading: false, content: content, bt_class: 'control' })
-        } else {
-          self.setData({
-            loading: false,
-            bt_class: 'no_data'
-          })
-        }
+        var content = res.data;
+        self.setData({ loading: false, content: content, bt_class: 'control' })
         //把当前读取的章节信息记录到书籍中
         wx.getStorage({
           key: constants.STORAGE_BOOK_LIST,
@@ -140,9 +132,66 @@ Page({
           }
         })
       },
-      fail: function (res) {
-        self.setData({
-          loading: false
+      fail: function () {
+        //如果没有在缓存中加载到数据, 开始下载
+        wx.request({
+          url: getBookChapter,
+          data: {
+            id: self.data.chapterid
+          },
+          method: 'POST',
+          header: {
+            'content-type': 'application/json'
+          },
+          success: function (res) {
+            if (res.data.errcode == 1) {
+              var content = res.data.result.text
+              self.setData({ loading: false, content: content, bt_class: 'control' })
+              //存储章节内容
+              wx.setStorage({
+                key: self.data.chapterid,
+                data: content,
+              })
+            } else {
+              self.setData({
+                loading: false,
+                bt_class: 'no_data'
+              })
+            }
+            //把当前读取的章节信息记录到书籍中
+            wx.getStorage({
+              key: constants.STORAGE_BOOK_LIST,
+              success: function (res) {
+                var books = res.data
+                if (books) {
+                  for (var i = 0; i < books.length; i++) {
+                    var book = books[i]
+                    if (book.id == self.data.bookid) {
+                      book.position = self.data.position
+                      break;
+                    }
+                  }
+                  //重新存储
+                  wx.setStorage({
+                    key: constants.STORAGE_BOOK_LIST,
+                    data: books,
+                  })
+                }
+              }
+            })
+          },
+          fail: function (res) {
+            self.setData({
+              loading: false
+            })
+          },
+          complete: function () {
+            if (wx.hideLoading) {
+              wx.hideLoading()
+            }
+            wx.stopPullDownRefresh()
+            isLoading = false
+          }
         })
       },
       complete: function () {
@@ -153,6 +202,10 @@ Page({
         isLoading = false
       }
     })
+
+
+
+
   },
 
 
@@ -195,7 +248,7 @@ Page({
   navigateToList: function () {
     var self = this
     wx.redirectTo({
-      url: '../bookChapterList/bookChapterList?bookid=' + self.data.bookid + '&book_name=' + self.data.book_name,
+      url: '../bookChapterList/bookChapterList?bookid=' + self.data.bookid + '&book_name=' + self.data.book_name + '&category=' + self.data.category,
     })
   },
 
@@ -211,8 +264,8 @@ Page({
         var list = res.data.chapters
         if (list && list.length > 0) {
           if (position >= list.length) {
-            wx.showToast({
-              title: '最后一章了!',
+            wx.navigateTo({
+              url: '../readFinish/readFinish?category=' + self.data.category,
             })
             return;
           }
@@ -259,23 +312,26 @@ Page({
           app.go_home()
         }
       },
-      fail:function(res){
+      fail: function (res) {
         self.add_to_bookstore()
+      },
+      complete:function(){
       }
     })
+
   },
 
 
   //添加到书架
-  add_to_bookstore:function(){
+  add_to_bookstore: function () {
     var self = this
     var bookid = self.data.bookid
     wx.showModal({
       title: '加入书架吗?',
-      content: '',
+      content: '书籍未加入书架, 数据不会保存哟~',
       confirmText: '加入',
       cancelText: '不了',
-      cancelColor:'#888',
+      cancelColor: '#888',
       success: function (res) {
         if (res.confirm) {
           wx.getStorage({
@@ -402,7 +458,7 @@ Page({
         timingFunction: 'ease',
         delay: 0
       })
-      self.setData({ showControl:false,bottom_animation: animation.export() })
+      self.setData({ showControl: false, bottom_animation: animation.export() })
 
       setTimeout(function () {
         animation.translate(0, 100).step()
@@ -423,7 +479,6 @@ Page({
 
   //页面卸载
   onUnload: function () {
-
 
   },
 
@@ -562,6 +617,62 @@ Page({
         }
       })
     }
+  },
+
+  //跳转到书籍信息页面
+  navigateToBook: function (e) {
+    var self = this
+    var bookid = self.data.bookid
+    app.navigateToBook(bookid)
+  },
+
+
+  //缓存书籍章节
+  storageBook: function () {
+    wx.showToast({
+      title: '开始缓存...',
+    })
+
+    var self = this
+
+    //获取到列表
+    wx.getStorage({
+      key: self.data.bookid,
+      success: function (res) {
+        var list = res.data.chapters
+        if (list && list.length > 0) {
+          for (var i = 0; i < list.length; i++) {
+            var chapter = list[i]
+            var chapterid = chapter.id
+            var value = wx.getStorageSync(chapterid);
+            if (!value) {
+              wx.request({
+                url: getBookChapter,
+                data: {
+                  id: chapterid
+                },
+                method: 'POST',
+                header: {
+                  'content-type': 'application/json'
+                },
+                success: function (res) {
+                  if (res.data.errcode == 1) {
+                    var chapterid = res.data.result.id
+                    var content = res.data.result.text
+                    //存储章节内容
+                    wx.setStorage({
+                      key: chapterid,
+                      data: content,
+                    })
+                  }
+                }
+              })
+            }
+          }
+        }
+      },
+    })
+
   }
 
 })

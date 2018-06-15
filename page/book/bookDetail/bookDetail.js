@@ -1,9 +1,10 @@
-// bookDetail.js
+
 const getBookDetail = require('../../../config').getBookDetail
-const getImageUrl = require('../../../config').getImage
 const constants = require('../../../utils/constants')
+const date = require('../../../utils/date')
+const updateUserBookStore = require('../../../config').updateUserBookStore
 var app = getApp()
-var id;
+
 Page({
 
   /**
@@ -12,15 +13,20 @@ Page({
   data: {
     loading: false,
     exists: false,
-    book: ''
+    book: '',
+    bookid:'',
+    books: '',//作者的其他书籍
+    recommend: ''//同类推荐
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    id = options.id
-    this.loadData()
+    var id = options.id
+    var self = this
+    self.setData({ bookid:id})
+    self.loadData()
   },
 
   /**
@@ -30,10 +36,16 @@ Page({
 
   },
 
+  onShareAppMessage: function () {
+    // return custom share data when user share.
+  },
+
   /**
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
+    var self = this
+    var bookid = self.data.bookid
     //如果没有加入到书架,删除缓存
     //获取到列表
     wx.getStorage({
@@ -44,7 +56,7 @@ Page({
         if (books && books.length > 0) {
           for (var i = 0; i < books.length; i++) {
             var book = books[i]
-            if (book.id == id) {
+            if (book.id == bookid) {
               exists = true
               break
             }
@@ -53,8 +65,7 @@ Page({
 
         if (!exists) {
           wx.removeStorage({
-            key: id,
-            success: function (res) { },
+            key: bookid
           })
         }
       }
@@ -75,11 +86,14 @@ Page({
       mask: true
     })
 
+    var bookid = self.data.bookid
+
     self.setData({ loading: true })
     wx.request({
       url: getBookDetail,
       data: {
-        id: id
+        id: bookid,
+        type:'normal'
       },
       method: 'POST',
       header: {
@@ -87,14 +101,16 @@ Page({
       },
       success: function (res) {
         if (res.data.errcode == 1) {
-          var reg = new RegExp("<br />", "g");
+          var book = res.data.book
+          var reg = new RegExp("<br.?/>", "g");
           var reg2 = new RegExp("</p>", "g");
-          var book = res.data.result
           book.shortIntroduce = book.shortIntroduce.replace(reg, '\n').replace(reg2, '\n')
-          self.setData({ loading: false, book: book })
+          book.lastUpdate = date.simpletop_timestamps(book.lastUpdateTime)
+          self.setData({book: book, books: res.data.books, recommend: res.data.recommend })
           //把书籍信息存储到全局变量中
-          app.globalData.book = book
+          //app.globalData.book = book
           var exists = false;
+          //是否已经加入书架
           wx.getStorage({
             key: constants.STORAGE_BOOK_LIST,
             success: function (res) {
@@ -113,15 +129,46 @@ Page({
               self.setData({ exists: exists })
             }
           })
-        } else {
-          self.setData({ loading: false })
+
+          //加入历史记录
+          wx.getStorage({
+            key: constants.STORAGE_HISTORY,
+            success: function(res) {
+              var books = res.data;
+              if (books) {
+                for (var i = 0; i < books.length; i++) {
+                  var old = books[i]
+                  if (old.id == book.id) {
+                    books.splice(i, 1)
+                    break;
+                  }
+                }
+              }else{
+                books=[]
+              }
+              books.unshift(book)
+              wx.setStorage({
+                key: constants.STORAGE_HISTORY,
+                data: books,
+              })
+            },
+
+            fail:function(res){
+              var books = []
+              books.unshift(book)
+              wx.setStorage({
+                key: constants.STORAGE_HISTORY,
+                data: books,
+              })
+            }
+          })
         }
       },
 
       fail: function (res) {
-        self.setData({ loading: false })
       },
       complete: function () {
+        self.setData({ loading: false })
         if (wx.hideLoading) {
           wx.hideLoading()
         }
@@ -168,6 +215,28 @@ Page({
                 title: '加入书架成功',
                 duration: 2000
               })
+
+              //同时添加到服务器
+              var thirdSession = app.globalData.userInfo.thirdSession
+              if (thirdSession) {
+                //删除服务器中的数据
+                var store = []
+                store.push(book.id)
+
+                wx.request({
+                  url: updateUserBookStore,
+                  data: {
+                    thirdSession: thirdSession,
+                    store: store,
+                    type: 'add'
+                  },
+                  method: 'POST',
+                  header: {
+                    'content-type': 'application/json'
+                  }
+                })
+              }
+
             },
             fail: function (res) {
               wx.showToast({
@@ -239,6 +308,26 @@ Page({
                         title: '移除成功',
                         duration: 2000
                       })
+
+                      var thirdSession = app.globalData.userInfo.thirdSession
+                      if (thirdSession) {
+                        //删除服务器中的数据
+                        var store = []
+                        store.push(book.id)
+
+                        wx.request({
+                          url: updateUserBookStore,
+                          data: {
+                            thirdSession: thirdSession,
+                            store: store,
+                            type: 'del'
+                          },
+                          method: 'POST',
+                          header: {
+                            'content-type': 'application/json'
+                          }
+                        })
+                      }
                     },
                     fail: function (res) {
                       wx.showToast({
@@ -246,6 +335,13 @@ Page({
                         duration: 2000
                       })
                     }
+                  })
+
+
+                  //删除章节目录
+                  wx.removeStorage({
+                    key: book.id,
+                    success: function(res) {},
                   })
                 } else {
                   wx.showToast({
@@ -266,7 +362,7 @@ Page({
     var self = this;
     var book = self.data.book;
     wx.navigateTo({
-      url: '../bookChapterList/bookChapterList?bookid=' + book.id + '&book_name=' + book.book_name,
+      url: '../bookChapterList/bookChapterList?bookid=' + book.id + '&book_name=' + book.book_name + '&category=' + book.category,
     })
   },
 
@@ -276,6 +372,32 @@ Page({
    */
   onPullDownRefresh: function () {
     this.loadData()
+  },
+
+  /*
+   跳转到其他书籍信息页面
+  */
+  navigateToBook: function (e) {
+    var self = this
+    var book = self.data.books[e.currentTarget.id]
+    app.navigateToBook(book.id)
+  },
+
+  navigateToRecommendBook: function (e) {
+    var self = this
+    var book = self.data.recommend[e.currentTarget.id]
+    app.navigateToBook(book.id)
+  },
+
+
+
+//返回分类
+  go_category: function (e) {
+    var book = this.data.book;
+    if (book) {
+      var category = book.category
+      app.go_category(category);
+    }
   }
 
 

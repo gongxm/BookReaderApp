@@ -8,6 +8,10 @@
   margin: 3px;
 }
 
+.store{
+  color: #888;
+}
+
 .navigator {
   background-color: #eee;
   color: blue;

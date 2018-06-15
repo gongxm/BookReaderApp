@@ -1,7 +1,10 @@
 <view wx:if='{{thirdSession}}'>
   <view wx:if="{{permissions=='TEST'}}">
 
-    <view class="content">
+    <view wx:if="{{logs.length==0}}">
+      <view class="center gray-color tips-size">暂无历史记录</view>
+    </view>
+    <view class="content" wx:else>
       <image class="main-bg" src="../asserts/img/bg.png"></image>
       <block wx:for="{{logs}}" wx:key='*key'>
         <view class="item">{{item}}</view>
@@ -21,7 +24,6 @@
         <view class="center gray-color tips-size">没有数据,请重试!</view>
       </view>
       <view wx:else>
-
         <view class="mygrid" bindtap='navigatoList' id='{{index}}' wx:for="{{categories}}" wx:key="name">
           <view class="button button-red" hover-class="weui-form-preview-btn-active" hover-stay-time="100">{{item.name}}</view>
         </view>
@@ -30,18 +32,8 @@
 
     </view>
 
-
-
-
   </view>
 </view>
 <view wx:else>
-  <view bindtap="openUserInfoSetting" class="weui-media-box weui-media-box-appmsg" hover-class="weui-cell-active">
-    <view class="weui-media-box-hd weui-media-box-hd-in-appmsg">
-      <image class="weui-media-box-thumb" src="../../images/plus.png" mode="aspectFill" />
-    </view>
-    <view class="weui-media-box-bd weui-media-box-bd-in-appmsg">
-      <view class="weui-media-box-title">授权登录</view>
-    </view>
-  </view>
+  <button plain="true" open-type="getUserInfo" lang="zh_CN" bindgetuserinfo="authorizationGetUserInfo">授权登录</button>
 </view>

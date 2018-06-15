@@ -12,11 +12,12 @@ Page({
    * 页面的初始数据
    */
   data: {
-    sort: 1,
+    sort: 1,// 1:正序  2:反序
     loading: false,
     bookid: '',
     chapters: [],
-    book_name: ''
+    book_name: '',
+    category: ''
   },
 
   /**
@@ -26,7 +27,8 @@ Page({
     var self = this
     var bookid = options.bookid
     var book_name = options.book_name
-    self.setData({ loading: true, bookid: bookid, book_name: book_name })
+    var category = options.category
+    self.setData({ loading: true, bookid: bookid, book_name: book_name, category: category })
     //获取到列表
     wx.getStorage({
       key: bookid,
@@ -75,6 +77,7 @@ Page({
       return
     }
     isload = true
+
     var self = this
     self.setData({ loading: true })
     wx.stopPullDownRefresh()
@@ -93,10 +96,12 @@ Page({
           self.sort(chapters)
           self.setData({ chapters: chapters, loading: false })
           var data = { chapters: chapters, sort: self.data.sort }
+
+          wx.removeStorageSync(self.data.bookid)
           //存储数据
           wx.setStorage({
             key: self.data.bookid,
-            data: data,
+            data: data
           })
 
         } else {
@@ -119,8 +124,9 @@ Page({
     var index = e.currentTarget.id
     var chapters = self.data.chapters
     var chapter = chapters[index]
+
     wx.redirectTo({
-      url: '../readView/readView?chapterid=' + chapter.id + '&chapter_name=' + chapter.chapter_name + '&bookid=' + self.data.bookid + '&position=' + chapter.position + '&book_name=' + self.data.book_name,
+      url: '../readView/readView?chapterid=' + chapter.id + '&chapter_name=' + chapter.chapter_name + '&bookid=' + self.data.bookid + '&position=' + chapter.position + '&book_name=' + self.data.book_name + '&category=' + self.data.category,
     })
   },
 
@@ -179,7 +185,6 @@ Page({
       sort: sort
     })
     self.sort(list)
-    self.setData({ chapters: list })
   },
 
   //抽取排序功能
@@ -196,6 +201,8 @@ Page({
         return a.position - b.position
       });
     }
+
+    self.setData({ chapters: list })
 
     wx.getStorage({
       key: self.data.bookid,

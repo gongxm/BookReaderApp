@@ -1,0 +1,26 @@
+<!--page/user/history/history.wxml-->
+
+
+<view wx:if="{{books.length==0}}">
+  <view class="center">
+    <text class="tips">还没有看过书,快去看看吧!</text>
+  </view>
+</view>
+
+<view wx:else>
+  <view wx:for="{{books}}" id="{{index}}" bindtap="navigateToBook" wx:key="category">
+    <view class="weui-media-box weui-media-box-appmsg" style="border-bottom: 1rpx solid #E5E5E5;" hover-class="weui-cell-active">
+      <view class="weui-media-box-hd weui-media-box-hd-in-appmsg">
+        <image class="weui-media-box-thumb" style="border-radius: 60rpx;width: 120rpx;height: 120rpx;" src="{{item.cover}}" mode="aspectFill" />
+      </view>
+      <view class="weui-media-box-bd">
+        <view class="book-title">{{item.book_name}}</view>
+        <view class="book-author">{{item.category}} | {{item.author}}</view>
+        <view class="last_chapter font_14_size">{{item.lastChapter}}</view>
+      </view>
+    </view>
+  </view>
+</view>
+
+<view class='home-button' bindtap='clear'>清空</view>
+<view class='category-button' bindtap='go_category_list'>书城</view>

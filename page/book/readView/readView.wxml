@@ -4,8 +4,8 @@
   </view>
   <view class="container" wx:else>
     <view class='top'>
-      <view bindtap='go_back_home'>首页 </view> >
-      <view bindtap='navigateToList'> {{book_name}}</view>
+      <view bindtap='go_back_home' class='color_title'>书架</view> >
+      <view bindtap='navigateToBook' class='color_title'>{{book_name}}</view>
     </view>
 
     <view wx:if="{{content}}">
@@ -22,24 +22,25 @@
       <view class='button next' bindtap="nextChapter" hover-class='button_hover' hover-stay-time='100'>下一章</view>
     </view>
   </view>
-      <view class='show_bottom' animation="{{bottom_animation}}">
-        <view class='chapter_control'>
-          <view class='pre_chapter' bindtap="preChapter">
-            上一章
-            <view class="left_jt"></view>
-          </view>
-          <view class='next_chapter' bindtap="nextChapter">
-            下一章
-            <view class="right_jt"></view>
-          </view>
-        </view>
-        <view class='setting'>
-          <view class='setting_item font_size_sub' bindtap='font_size_sub'>Aa-</view>
-          <view class='setting_item font_size_add' bindtap='font_size_add'>Aa+</view>
-          <view class='setting_item night' bindtap='night_style_change'>{{night_style_bt}}</view>
-          <view class='setting_item book_store' bindtap='go_back_home'>书架</view>
-          <view class='setting_item list' bindtap='navigateToList'>目录</view>
-        </view>
+  <view class='show_bottom' animation="{{bottom_animation}}">
+    <view class='chapter_control'>
+      <view class='pre_chapter' bindtap="preChapter">
+        上一章
+        <view class="left_jt"></view>
       </view>
+      <view class='next_chapter' bindtap="nextChapter">
+        下一章
+        <view class="right_jt"></view>
+      </view>
+    </view>
+    <view class='setting'>
+      <view class='setting_item font_size_sub' bindtap='font_size_sub'>Aa-</view>
+      <view class='setting_item font_size_add' bindtap='font_size_add'>Aa+</view>
+      <view class='setting_item night' bindtap='night_style_change'>{{night_style_bt}}</view>
+      <view class='setting_item book_store' bindtap='go_back_home'>书架</view>
+      <view class='setting_item store' bindtap='storageBook'>缓存</view>
+       <view class='setting_item list' bindtap='navigateToList'>目录</view>
+    </view>
+  </view>
   <view class="bottom"></view>
 </view>

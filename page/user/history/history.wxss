@@ -1,0 +1,21 @@
+
+.book-title {
+  width: 560rpx;
+  font-weight: bold;
+  font-size: 16px;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
+.book-author {
+  font-size: 14px;
+}
+
+.last_chapter {
+  width: 560rpx;
+  color: #888;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}

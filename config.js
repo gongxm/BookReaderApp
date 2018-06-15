@@ -6,10 +6,10 @@
 // 此处主机域名是腾讯云解决方案分配的域名
 // 小程序后台服务解决方案：https://www.qcloud.com/solution/la
 
-// var host = "https://31412947.qcloud.la" 
+ //var host = "https://31412947.qcloud.la" 
 var host = "https://www.gongxm.com" 
 
-// var host = "http://127.0.0.1:8080"   //本地测试环境
+// var host = "https://127.0.0.1"   //本地测试环境
 
 var service_name = "BookReaderServer"
 
@@ -25,7 +25,7 @@ var config = {
   //获取书籍分类列表
   getCategoryList: `${host}/${service_name}/action/getCategoryList`,
   //获取书籍封面
-  getImage: `${host}/${service_name}/getImage?cover=`,
+ // getImage: `${host}/${service_name}/getImage?cover=`,
   //获取书籍详细信息
   getBookDetail: `${host}/${service_name}/action/getBookDetail`,
   //获取书籍章节列表
@@ -40,6 +40,10 @@ var config = {
   getAllUser: `${host}/${service_name}/action/getAllUser`,
   //修改用户权限
   changePermissions: `${host}/${service_name}/action/changePermissions`,
+  //获取推荐书籍
+  getRecommend: `${host}/${service_name}/action/getRecommend`,
+  //更新用户书架及配置
+  updateUserBookStore: `${host}/${service_name}/action/updateUserBookStore`
 };
 
 module.exports = config

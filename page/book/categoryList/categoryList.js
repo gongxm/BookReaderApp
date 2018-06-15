@@ -5,7 +5,6 @@ const getImageUrl = require('../../../config').getImage
 const constants = require('../../../utils/constants')
 var app = getApp()
 
-var currentPage = 1
 var pageSize = 10
 var isLoading = false
 Page({
@@ -19,7 +18,8 @@ Page({
     books: [],
     over: false,
     type: '1',
-    keyword: ''
+    keyword: '',
+    currentPage:1
   },
 
   /**
@@ -31,9 +31,12 @@ Page({
     var keyword = options.keyword
     var self = this
     if (category && category != '') {
-      self.setData({ loading: true, category: category, type: type, keyword: keyword })
+      self.setData({ loading: true, category: category, type: type, currentPage:1 })
     }
-    currentPage = 1
+
+    if (keyword && keyword != '') {
+      self.setData({ keyword: keyword })
+    }
     isLoading = false
   },
 
@@ -70,6 +73,11 @@ Page({
     app.go_home()
   },
 
+  //返回分类列表
+  go_category_list: function () {
+    app.go_category_list();
+  },
+
 
   //加载数据
   loadData: function () {
@@ -83,6 +91,7 @@ Page({
     //获取当前分类的列表内容
     var self = this
     var category = this.data.category
+    var currentPage = this.data.currentPage
     if (category && category != '') {
       wx.request({
         url: getCategoryList,
@@ -98,6 +107,7 @@ Page({
         success: function (res) {
           if (res.data.errcode == 1) {
             var list = res.data.result;
+            var currentPage = res.data.currentPage
             if (list && list.length > 0) {
               var reg = new RegExp("=", "g");
               var books = self.data.books
@@ -106,19 +116,13 @@ Page({
                 item.id = item.id.replace(reg, '#')
                 books.push(item)
               }
-              self.setData({ loading: false, books: books, over: list.length < pageSize })
+              self.setData({ books: books, over: list.length < pageSize, currentPage: ++currentPage })
               //数据加载成功,当前页面自增
-              currentPage++
-            } else {
-              self.setData({ loading: false })
             }
-          } else {
-            self.setData({ loading: false })
           }
         },
 
         fail: function (res) {
-          self.setData({ loading: false })
           wx.showToast({
             title: constants.DATA_NOT_FOUNT,
             icon: 'success',
@@ -126,6 +130,7 @@ Page({
           })
         },
         complete() {
+          self.setData({ loading: false })
           wx.stopPullDownRefresh()
           isLoading = false
         }
@@ -133,12 +138,11 @@ Page({
     }
   },
 
+  //显示书籍详情
   navigateToBook: function (e) {
     var self = this
     var book = self.data.books[e.currentTarget.id]
-    wx.navigateTo({
-      url: '../bookDetail/bookDetail?id=' + book.id,
-    })
+    app.navigateToBook(book.id)
   },
 
 
@@ -147,8 +151,7 @@ Page({
    */
   onPullDownRefresh: function () {
     var self = this
-    self.setData({ loading: true, over: false, books: [] })
-    currentPage = 1;
+    self.setData({ currentPage:1, loading: true, over: false, books: [] })
     var type = this.data.type
     if (type == constants.CATEGORY_TYPE_NORMAL) {
       this.loadData()
@@ -198,6 +201,7 @@ Page({
     //获取当前分类的列表内容
     var self = this
     var keyword = this.data.keyword
+    var currentPage = this.data.currentPage
     if (keyword && keyword != '') {
       wx.request({
         url: search,
@@ -213,26 +217,19 @@ Page({
         success: function (res) {
           if (res.data.errcode == 1) {
             var list = res.data.result;
+            var currentPage = res.data.currentPage
             if (list && list.length > 0) {
               var books = self.data.books
               for (var i = 0; i < list.length; i++) {
                 var item = list[i]
                 books.push(item)
               }
-              self.setData({ loading: false, books: books, over: list.length < pageSize })
-
-              //数据加载成功,当前页面自增
-              currentPage++
-            } else {
-              self.setData({ loading: false })
+              self.setData({ currentPage:++currentPage,books: books, over: list.length < pageSize })
             }
-          } else {
-            self.setData({ loading: false })
           }
         },
 
         fail: function (res) {
-          self.setData({ loading: false })
           wx.showToast({
             title: constants.DATA_NOT_FOUNT,
             icon: 'success',
@@ -240,6 +237,7 @@ Page({
           })
         },
         complete() {
+          self.setData({ loading: false })
           wx.stopPullDownRefresh()
           isLoading = false
         }

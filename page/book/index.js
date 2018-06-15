@@ -31,9 +31,20 @@ Page({
    */
   onReady: function () {
 
-    if (app.globalData.userInfo.permissions != 'TEST') {
+    if (app.globalData.userInfo.permissions && app.globalData.userInfo.permissions != 'TEST') {
       hasLoadData = true
-      this.loadData()
+      var self = this
+      wx.getStorage({
+        key: constants.STORAGE_CATEGORY_LIST,
+        success: function (res) {
+          var categories = res.data
+          self.setData({ categories: categories, loading: false })
+        },
+        fail:function(){
+          self.loadData()
+        }
+      })
+
     }
   },
 
@@ -41,10 +52,13 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-    this.flushData()
+      this.flushData()
   },
 
 
+  onShareAppMessage: function () {
+    // return custom share data when user share.
+  },
 
   flushData: function () {
     this.setData({
@@ -113,6 +127,15 @@ Page({
               categories.push(item)
             }
             self.setData({ categories: categories, loading: false })
+
+            //把数据存储到本地
+            wx.setStorage({
+              key: constants.STORAGE_CATEGORY_LIST,
+              data: categories,
+              success: function (res) {
+               
+              }
+            })
           }
         }
       },
@@ -133,30 +156,10 @@ Page({
 
 
   /**
- * 打开小程序设置界面
- */
-  openUserInfoSetting: function () {
-    var self = this
-    wx.openSetting({
-      success: (res) => {
-        if (wx.getSetting) {
-          wx.getSetting({
-            success: (res) => {
-              var authSetting = res.authSetting
-              if (res.authSetting['scope.userInfo']) {
-                app.login(self)
-              }
-            }
-          })
-        }
-      },
-      fail: (res) => {
-
-      },
-      complete: (res) => {
-
-      }
-    })
+  * 授权获取用户信息
+  */
+  authorizationGetUserInfo: function (e) {
+    app.authorizationGetUserInfo()
   },
 
   //跳转到列表

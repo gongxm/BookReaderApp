@@ -1,8 +1,7 @@
-
 <view class="page">
   <view class="page-bd">
     <view class="weui-panel-access background">
-      <view bindtap="navigate" class="weui-panel-bd" wx:if="{{thirdSession != ''}}">
+      <view class="weui-panel-bd" wx:if="{{thirdSession != ''}}">
         <view class="weui-media-box weui-media-box-appmsg" hover-class="weui-cell-active">
           <view class="weui-media-box-hd weui-media-box-hd-in-appmsg">
             <image class="weui-media-box-thumb user-cover" src="{{userInfo.avatarUrl}}" mode="aspectFill" />
@@ -15,42 +14,10 @@
           </view>
         </view>
 
-        <view class="weui-cell weui-cell-access" hover-class="weui-cell-active">
-          <view class="weui-cell-hd">
-            <image src="{{icon}}" style="width: 28px;height: 28px;margin-right: 16px;vertical-align: middle;" />
-          </view>
-          <view class="weui-cell-bd weui-cell-primary">
-            <view>城市:{{userInfo.city}}</view>
-          </view>
-          <view class="weui-cell-ft weui-cell-ft-in-access"></view>
-        </view>
-
-
-        <view class="weui-cell weui-cell-access" hover-class="weui-cell-active">
-          <view class="weui-cell-hd">
-            <image src="{{icon}}" style="width: 28px;height: 28px;margin-right: 16px;vertical-align: middle;" />
-          </view>
-          <view class="weui-cell-bd weui-cell-primary">
-            <view>省份:{{userInfo.province}}</view>
-          </view>
-          <view class="weui-cell-ft weui-cell-ft-in-access"></view>
-        </view>
-
-
-        <view class="weui-cell weui-cell-access" hover-class="weui-cell-active">
-          <view class="weui-cell-hd">
-            <image src="{{icon}}" style="width: 28px;height: 28px;margin-right: 16px;vertical-align: middle;" />
-          </view>
-          <view class="weui-cell-bd weui-cell-primary">
-            <view>国家:{{userInfo.country}}</view>
-          </view>
-          <view class="weui-cell-ft weui-cell-ft-in-access"></view>
-        </view>
-
 
         <view bindtap='manager' class="weui-cell weui-cell-access" hover-class="weui-cell-active" wx:if="{{userInfo.permissions=='ROOT'}}">
           <view class="weui-cell-hd">
-            <image src="{{icon}}" style="width: 28px;height: 28px;margin-right: 16px;vertical-align: middle;" />
+            <image src="../../images/user_manage.png" style="width: 28px;height: 28px;margin-right: 16px;vertical-align: middle;" />
           </view>
           <view class="weui-cell-bd weui-cell-primary">
             <view>管理用户</view>
@@ -58,18 +25,84 @@
           <view class="weui-cell-ft weui-cell-ft-in-access"></view>
         </view>
 
-        <view class="weui-cell weui-cell-access" hover-class="weui-cell-active"></view>
+        <view class="weui-cell weui-cell-access">
+          <view class="weui-cell-hd">
+            <image src="../../images/city.png" style="width: 28px;height: 28px;margin-right: 16px;vertical-align: middle;" />
+          </view>
+          <view class="weui-cell-bd weui-cell-primary">
+            <view>城市:{{userInfo.city}}</view>
+          </view>
+        </view>
+
+
+        <view class="weui-cell weui-cell-access">
+          <view class="weui-cell-hd">
+            <image src="../../images/province.png" style="width: 28px;height: 28px;margin-right: 16px;vertical-align: middle;" />
+          </view>
+          <view class="weui-cell-bd weui-cell-primary">
+            <view>省份:{{userInfo.province}}</view>
+          </view>
+        </view>
+
+
+        <view class="weui-cell weui-cell-access">
+          <view class="weui-cell-hd">
+            <image src="../../images/country.png" style="width: 28px;height: 28px;margin-right: 16px;vertical-align: middle;" />
+          </view>
+          <view class="weui-cell-bd weui-cell-primary">
+            <view>国家:{{userInfo.country}}</view>
+          </view>
+        </view>
+
+
+
+        <view class="weui-cell weui-cell-access">
+          <view class="weui-cell-hd">
+            <image src="../../images/storage.png" style="width: 28px;height: 28px;margin-right: 16px;vertical-align: middle;" />
+          </view>
+          <view class="weui-cell-bd weui-cell-primary">
+            <view>缓存: {{currentSize}}(已用) | {{limitSize}}(总)</view>
+          </view>
+        </view>
+
+
+        <view class="weui-cell weui-cell-access" hover-class="weui-cell-active">
+          <view class="weui-cell-hd">
+            <image src="../../images/clear_cache.png" style="width: 28px;height: 28px;margin-right: 16px;vertical-align: middle;" />
+          </view>
+          <view class="weui-cell-bd weui-cell-primary" bindtap='clear'>
+            <view>清理缓存</view>
+          </view>
+          <view class="weui-cell-ft weui-cell-ft-in-access"></view>
+        </view>
+
+
+
+        <view bindtap='history' class="weui-cell weui-cell-access" hover-class="weui-cell-active" wx:if="{{userInfo.permissions=='USER'}}">
+          <view class="weui-cell-hd">
+            <image src="../../images/history.png" style="width: 28px;height: 28px;margin-right: 16px;vertical-align: middle;" />
+          </view>
+          <view class="weui-cell-bd weui-cell-primary">
+            <view>浏览历史</view>
+          </view>
+          <view class="weui-cell-ft weui-cell-ft-in-access"></view>
+        </view>
+
+        <view bindtap='history' class="weui-cell weui-cell-access" hover-class="weui-cell-active" wx:if="{{userInfo.permissions=='ROOT'}}">
+          <view class="weui-cell-hd">
+            <image src="../../images/history.png" style="width: 28px;height: 28px;margin-right: 16px;vertical-align: middle;" />
+          </view>
+          <view class="weui-cell-bd weui-cell-primary">
+            <view>浏览历史</view>
+          </view>
+          <view class="weui-cell-ft weui-cell-ft-in-access"></view>
+        </view>
+
+        <view class="weui-cell weui-cell-access"></view>
 
       </view>
       <view wx:else>
-        <view bindtap="openUserInfoSetting" class="weui-media-box weui-media-box-appmsg" hover-class="weui-cell-active">
-          <view class="weui-media-box-hd weui-media-box-hd-in-appmsg">
-            <image class="weui-media-box-thumb" src="../../images/plus.png" mode="aspectFill" />
-          </view>
-          <view class="weui-media-box-bd weui-media-box-bd-in-appmsg">
-            <view class="weui-media-box-title">授权登录</view>
-          </view>
-        </view>
+        <button plain="true" open-type="getUserInfo" lang="zh_CN" bindgetuserinfo="authorizationGetUserInfo">授权登录</button>
       </view>
     </view>
   </view>

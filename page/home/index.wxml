@@ -43,24 +43,38 @@
       <view class="center gray-color tips-size">还没有加入任何书籍,快去书城看看吧</view>
     </view>
     <view wx:else>
-      <view class="mygrid" wx:for="{{books}}" id="{{index}}" bindtap='readBook' bindlongpress='delete' wx:key="*key">
-        <view class="myipic">
-          <image src=" {{item.cover}}" mode="scaleToFill" />
+
+      <view wx:if='{{type}}'>
+        <view class="mygrid" wx:for="{{books}}" id="{{index}}" bindtap='readBook' bindlongpress='delete' wx:key="*key">
+          <view class="myipic">
+            <image class='update' src=" ../../images/ic_book_update.png" mode="scaleToFill" wx:if='{{item.update}}' />
+            <image class='image_cover' src=" {{item.cover}}" mode="scaleToFill" />
+          </view>
+          <text class="title">{{item.book_name}}</text>
         </view>
-        <text class="title">{{item.book_name}}</text>
+        <view class='home-button' bindtap='change'>列表</view>
       </view>
+
+      <view wx:else>
+        <view class='container'  wx:for="{{books}}" id="{{index}}" bindtap="readBook" bindlongpress='delete' wx:key="book">
+          <view class='book-info-box'>
+            <view class='grid'>
+             <image class='update' src=" ../../images/ic_book_update.png" mode="scaleToFill" wx:if='{{item.update}}' />
+              <image src="{{item.cover}}" class="book-cover" />
+            </view>
+            <view class="book-title font-14-size">{{item.book_name}}</view>
+            <view class="book-font-item">{{item.category}} | {{item.author}}</view>
+            <view class="book-font-item book-red-item">最新章节: {{item.lastChapter}}</view>
+             <view class="book-font-item book-color-item">更新时间: {{item.lastUpdate}}</view>
+          </view>
+        </view>
+        <view class='home-button' style=' background: #7d0cdc;' bindtap='change'>九宫</view>
+      </view>
+
     </view>
-    <view class="container">
-    </view>
+
   </view>
 </view>
 <view wx:else>
-  <view bindtap="openUserInfoSetting" class="weui-media-box weui-media-box-appmsg" hover-class="weui-cell-active">
-    <view class="weui-media-box-hd weui-media-box-hd-in-appmsg">
-      <image class="weui-media-box-thumb" src="../../images/plus.png" mode="aspectFill" />
-    </view>
-    <view class="weui-media-box-bd weui-media-box-bd-in-appmsg">
-      <view class="weui-media-box-title">授权登录</view>
-    </view>
-  </view>
+  <button plain="true" open-type="getUserInfo" lang="zh_CN" bindgetuserinfo="authorizationGetUserInfo">授权登录</button>
 </view>

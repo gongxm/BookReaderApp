@@ -12,14 +12,15 @@
     </view>
 
     <view wx:else>
-      <view wx:for="{{books}}" id="{{index}}" bindtap="navigateToBook" wx:key="*this">
+      <view wx:for="{{books}}" id="{{index}}" bindtap="navigateToBook" wx:key="category">
         <view class="weui-media-box weui-media-box-appmsg" style="border-bottom: 1rpx solid #E5E5E5;" hover-class="weui-cell-active">
           <view class="weui-media-box-hd weui-media-box-hd-in-appmsg">
             <image class="weui-media-box-thumb" style="border-radius: 60rpx;width: 120rpx;height: 120rpx;" src="{{item.cover}}" mode="aspectFill" />
           </view>
           <view class="weui-media-box-bd">
             <view class="book-title">{{item.book_name}}</view>
-            <view class="book-author">{{item.author}}</view>
+            <view class="book-author">{{category}} | {{item.author}}</view>
+            <view class="last_chapter font_14_size">{{item.lastChapter}}</view>
           </view>
         </view>
       </view>
@@ -35,3 +36,5 @@
   <view class="center buttom-tips" wx:if="{{over}}">已经到底了</view>
 </view>
 <view class='home-button' bindtap='go_home'>书架</view>
+
+<view class='category-button' bindtap='go_category_list'>书城</view>

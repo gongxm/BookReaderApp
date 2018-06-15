@@ -16,6 +16,10 @@ var CONSTANTS = {
     //---------缓存信息---------
     STORAGE_USERINFO: 'userInfo',
     STORAGE_BOOK_LIST:'book_list',
+    STORAGE_CATEGORY_LIST: 'category_list',
+    STORAGE_HISTORY: 'history',
+    SETTING: 'setting',//设置信息
+
     STORAGE_PLAN_LIST:'plan_list',
     STORAGE_PLAN_HISTORY: 'plan_history',
 
@@ -24,8 +28,7 @@ var CONSTANTS = {
     CATEGORY_TYPE_SEARCH:'2',
 
 
-    //设置信息
-    SETTING:'setting',
+   
 
 }
 

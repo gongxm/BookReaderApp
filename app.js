@@ -27,44 +27,16 @@ App({
 
 
   //程序启动
-  onLaunch: function () {
-    var self = this
-    self.checkLogin()
+  onLaunch: function() {
+    this.authorizationGetUserInfo()
   },
 
-  /*检测是否登录过，登录过则取缓存信息，没有则引导登录*/
-  checkLogin: function () {
-    var self = this
-    wx.getStorage({
-      key: constants.STORAGE_USERINFO,
-      success: function (res) {//已登录
-        if (res.data.thirdSession != undefined && res.data.thirdSession != '') {
-          self.globalData.userInfo.thirdSession = res.data.thirdSession
-          self.globalData.userInfo.username = res.data.username
-          self.globalData.userInfo.nickName = res.data.nickName
-          self.globalData.userInfo.permissions = res.data.permissions
-          self.globalData.userInfo.phone = res.data.phone
-          self.globalData.userInfo.gender = res.data.gender
-          self.globalData.userInfo.city = res.data.city
-          self.globalData.userInfo.province = res.data.province
-          self.globalData.userInfo.country = res.data.country
-          self.globalData.userInfo.avatarUrl = res.data.avatarUrl
-        } else {
-          self.login();
-        }
-      },
-      fail: function (res) {//未登录，引导登录
-        self.login()
-      },
-      complete:function(res){
-      }
-    })
-  },
+
 
   /**
    * 登陆
    */
-  login: function () {
+  login: function() {
     var self = this
     if (!isLogin) {
       isLogin = true
@@ -74,7 +46,7 @@ App({
       })
 
       wx.login({
-        success: function (res) {//客户授权后通过code获取客户信息
+        success: function(res) { //客户授权后通过code获取客户信息
           if (res.code) {
             //获取thirdSession
             wx.request({
@@ -86,23 +58,23 @@ App({
               header: {
                 'content-type': 'application/json'
               },
-              success: function (res) {
+              success: function(res) {
                 if (res.data.errcode == 1) {
                   var thirdSession = res.data.thirdSession
-                  //获取用户信息并保存到服务器
-                  self.saveUserInfo(thirdSession);
+                  //从服务器获取用户信息
+                  self.getUserInfo(thirdSession);
                 } else {
                   wx.showToast({
                     title: constants.LOGIN_FAIL,
-                    image: './images/error.png',
+                    image: '../../images/error.png',
                     duration: 2000
                   })
                 }
               },
-              fail:function(res){
+              fail: function(res) {
                 wx.showToast({
                   title: constants.LOGIN_FAIL,
-                  image: './images/error.png',
+                  image: '../../images/error.png',
                   duration: 2000
                 })
               }
@@ -111,7 +83,7 @@ App({
           } else {
             wx.showToast({
               title: constants.LOGIN_FAIL,
-              image: './images/error.png',
+              image: '../../images/error.png',
               duration: 2000
             })
           }
@@ -129,11 +101,12 @@ App({
   /**
    * 请求微信个人信息接口,上传用户信息到服务器
    */
-  saveUserInfo: function (thirdSession) {
+  saveUserInfo: function(thirdSession) {
     var self = this
 
     wx.getUserInfo({
-      success: function (res) {
+      lang: "zh_CN",
+      success: function(res) {
         var userInfo = res.userInfo
         wx.request({
           url: saveUserInfo,
@@ -146,7 +119,7 @@ App({
           header: {
             'content-type': 'application/json'
           },
-          success: function (res) {
+          success: function(res) {
             if (res.data.errcode == 1) {
               self.getUserInfo(thirdSession);
             } else {
@@ -158,7 +131,6 @@ App({
             }
           },
           fail: (res) => {
-            console.log('fail')
             if (wx.hideLoading) {
               wx.hideLoading()
             }
@@ -170,15 +142,18 @@ App({
           },
           complete: function () {
             isLogin = false
+            if (wx.hideLoading) {
+              wx.hideLoading()
+            }
           }
         })
       },
-      fail: function (res) {
+      fail: function(res) {
         if (wx.hideLoading) {
           wx.hideLoading()
         }
       },
-      complete: function () {
+      complete: function() {
         isLogin = false
         if (wx.hideLoading) {
           wx.hideLoading()
@@ -189,7 +164,7 @@ App({
 
 
   //获取服务器上的用户信息
-  getUserInfo: function (thirdSession) {
+  getUserInfo: function(thirdSession) {
     var self = this
 
     wx.request({
@@ -201,27 +176,24 @@ App({
       header: {
         'content-type': 'application/json'
       },
-      success: function (res) {
+      success: function(res) {
         if (res.data.errcode == 1) {
-          self.globalData.userInfo.thirdSession = thirdSession
-          self.globalData.userInfo.username = res.data.username
-          self.globalData.userInfo.nickName = res.data.nickName
-          self.globalData.userInfo.permissions = res.data.permissions
-          self.globalData.userInfo.phone = res.data.phone
-          self.globalData.userInfo.gender = res.data.gender
-          self.globalData.userInfo.city = res.data.city
-          self.globalData.userInfo.province = res.data.province
-          self.globalData.userInfo.country = res.data.country
-          self.globalData.userInfo.avatarUrl = res.data.avatarUrl
-          //把用户信息缓存到本地
-          wx.setStorage({
-            key: constants.STORAGE_USERINFO,
-            data: self.globalData.userInfo
-          })
+          if (res.data.username) {
+            self.globalData.userInfo = res.data
+            self.globalData.userInfo.thirdSession = thirdSession
+            //把用户信息缓存到本地
+            wx.setStorage({
+              key: constants.STORAGE_USERINFO,
+              data: self.globalData.userInfo
+            })
 
-          var pages = getCurrentPages()
-          if(pages&&pages.length>0){
-            pages[0].flushData()
+            var pages = getCurrentPages()
+            if (pages && pages.length > 0) {
+              pages[0].flushData()
+            }
+          } else {
+            //获取用户信息并保存到服务器
+            self.saveUserInfo(thirdSession);
           }
         } else {
           wx.showToast({
@@ -231,14 +203,17 @@ App({
           })
         }
       },
-      fail: function (res) {
+      fail: function(res) {
         wx.showToast({
           title: constants.USER_INFO_ERROR,
           image: '../../images/error.png',
           duration: 2000
         })
+        //获取用户信息并保存到服务器
+        self.saveUserInfo(thirdSession);
       },
       complete: (res) => {
+        isLogin = false
         if (wx.hideLoading) {
           wx.hideLoading()
         }
@@ -249,11 +224,51 @@ App({
 
 
   //回到书架
-  go_home:function(){
+  go_home: function() {
     wx.reLaunch({
       url: '../../home/index',
     })
-  }
+  },
+
+  //打开分类列表
+  go_category_list: function() {
+    wx.reLaunch({
+      url: '../../book/index',
+    })
+  },
+
+  //返回分类
+  go_category: function(category) {
+    if (category) {
+      wx.reLaunch({
+        url: '../../book/categoryList/categoryList?category=' + category + '&type=' + constants.CATEGORY_TYPE_NORMAL,
+      })
+    }
+  },
+
+
+  /**
+   * 授权获取用户信息
+   */
+  authorizationGetUserInfo: function() {
+    var self = this;
+    wx.getSetting({
+      success: function(res) {
+        if (res.authSetting['scope.userInfo']) {
+          // 已经授权，可以直接调用 getUserInfo 获取头像昵称
+          self.login()
+        }
+      }
+    })
+
+  },
+
+  //显示书籍详情
+  navigateToBook: function(bookid) {
+    wx.navigateTo({
+      url: '../../book/bookDetail/bookDetail?id=' + bookid,
+    })
+  },
 
 
 });
